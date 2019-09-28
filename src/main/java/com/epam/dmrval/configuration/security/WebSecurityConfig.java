@@ -21,14 +21,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/**")
-        .hasAuthority("USER")
         .antMatchers("/showItems")
-        .hasAuthority("IS_AUTHENTICATED_ANONYMOUSLY")
-        .anyRequest()
         .permitAll()
         .antMatchers("/signUp")
         .permitAll()
+        .antMatchers("/**")
+        .hasAuthority("USER")
         .and()
         .formLogin()
         .loginPage("/login")

@@ -1,9 +1,12 @@
 package com.epam.dmrval.entity;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /** Author - Damir_Valeev Created on 9/16/2019 */
+@Service
 public class UsersHelper {
   public List<User> allUsers = new ArrayList<>();
 

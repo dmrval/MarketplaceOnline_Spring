@@ -13,7 +13,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </head>
 
-<jsp:useBean id="currentUser" scope="session" type="com.epam.dmrval.entity.User"/>
 <body>
 
 <div class="head_sky">
@@ -49,7 +48,6 @@
     <h2>Dear ${currentUser.sex.respectCall} ${currentUser.fullname}. Here are all the products in the auction.</h2>
 </div>
 <div id="test1">
-    <jsp:useBean id="allProducts" scope="session" type="java.util.List"/>
     <table>
         <caption>All Items in auction</caption>
         <tr>

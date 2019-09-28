@@ -1,8 +1,11 @@
 package com.epam.dmrval.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class User {
   private String fullname;
   private String address;
@@ -10,6 +13,7 @@ public class User {
   private String password;
   private Sex sex;
   private List<Product> productList;
+  private Role userRole;
 
   public User(String fullname, String address, String login, Sex sex) {
     productList = new ArrayList<>();
@@ -17,6 +21,19 @@ public class User {
     this.address = address;
     this.login = login;
     this.sex = sex;
+  }
+
+  public User(
+      String fullname, String address, String login, String password, Sex sex, Role userRole) {
+    productList = new ArrayList<>();
+
+    this.fullname = fullname;
+    this.address = address;
+    this.login = login;
+    this.password = password;
+    this.sex = sex;
+    this.productList = productList;
+    this.userRole = userRole;
   }
 
   public User() {}
@@ -71,5 +88,13 @@ public class User {
 
   public void setSex(Sex sex) {
     this.sex = sex;
+  }
+
+  public Role getUserRole() {
+    return userRole;
+  }
+
+  public void setUserRole(Role userRole) {
+    this.userRole = userRole;
   }
 }

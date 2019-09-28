@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<form name="f" action="/showItems" method="post">
+<form name="f" action="/login" method="post">
     <fieldset>
         <legend>Please, log in</legend>
         <div class="field">
@@ -36,6 +36,7 @@
 <div class="login">
     <button class="login_buttons, bigButton" name="submit" type="submit">Reset</button>
     <button class="login_buttons, bigButton" name="submit" type="button"><a href="/guestLogin" class="button">Enter as guest</a></button>
+    <button class="login_buttons, bigButton" name="submit" type="button"><a href="/signUp" class="button">Registration</a></button>
 </div>
 </body>
 </html>

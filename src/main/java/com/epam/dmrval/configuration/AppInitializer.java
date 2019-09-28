@@ -12,7 +12,7 @@ public class AppInitializer implements WebApplicationInitializer {
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
     AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-    context.register(AppWebConfiguration.class, BeanConfiguration.class/*, SwaggerConfig.class*/ );
+    context.register(AppWebConfiguration.class, BeanConfiguration.class /*, SwaggerConfig.class*/);
     context.setServletContext(servletContext);
 
     ServletRegistration.Dynamic dispatcher =

@@ -7,14 +7,9 @@ import java.util.List;
 public class UsersHelper {
   public List<User> allUsers = new ArrayList<>();
 
-  public UsersHelper() {}
-
-  public List<User> getAllUsers() {
-    return allUsers;
-  }
-
-  public void startInit() {
-    User currentUser = new User("Ivanov Ivan Ivanovich", "Stepnaya 9", "IVAN", Sex.MR);
+  public UsersHelper() {
+    User currentUser =
+        new User("Ivanov Ivan Ivanovich", "Stepnaya 9", "ivan", "ivan", Sex.MR, Role.USER);
     currentUser
         .getProductList()
         .add(
@@ -32,7 +27,8 @@ public class UsersHelper {
                 "Glass bol",
                 new AuctionProductInfo(1000, 100, 23423, currentUser)));
 
-    User secondUser = new User("Mockachino Ludmila Petrovna", "Горького 16", "Ludmila", Sex.MRS);
+    User secondUser =
+        new User("Mockachino Ludmila Petrovna", "Горького 16", "luda", "luda", Sex.MRS, Role.USER);
     secondUser
         .getProductList()
         .add(
@@ -47,6 +43,10 @@ public class UsersHelper {
     allUsers.add(secondUser);
   }
 
+  public List<User> getAllUsers() {
+    return allUsers;
+  }
+
   public void setAllUsers(List<User> allUsers) {
     this.allUsers = allUsers;
   }
@@ -54,6 +54,15 @@ public class UsersHelper {
   public User getUserByUserName(String username) {
     for (User tmp : allUsers) {
       if (tmp.getFullname().equals(username)) {
+        return tmp;
+      }
+    }
+    return new User("NotFound", "NotFound", "NotFound", Sex.MR);
+  }
+
+  public User getUserByLogin(String login) {
+    for (User tmp : allUsers) {
+      if (tmp.getLogin().equals(login)) {
         return tmp;
       }
     }

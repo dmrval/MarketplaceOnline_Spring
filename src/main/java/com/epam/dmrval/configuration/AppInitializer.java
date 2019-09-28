@@ -9,17 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class AppInitializer implements WebApplicationInitializer {
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(
-                AppWebConfiguration.class,
-                BeanConfiguration.class,
-                SwaggerConfig.class);
-        context.setServletContext(servletContext);
+  @Override
+  public void onStartup(ServletContext servletContext) throws ServletException {
+    AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+    context.register(AppWebConfiguration.class, BeanConfiguration.class/*, SwaggerConfig.class*/ );
+    context.setServletContext(servletContext);
 
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(context));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
-    }
+    ServletRegistration.Dynamic dispatcher =
+        servletContext.addServlet("dispatcher", new DispatcherServlet(context));
+    dispatcher.setLoadOnStartup(1);
+    dispatcher.addMapping("/");
+  }
 }

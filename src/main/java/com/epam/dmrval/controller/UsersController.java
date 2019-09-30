@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
+import java.util.Optional;
+
 @Controller
 public class UsersController {
 
@@ -27,18 +30,18 @@ public class UsersController {
     return "registration";
   }
 
-//  @RequestMapping(value = "/login", method = RequestMethod.POST)
-//  public String postLogin(Model model) {
-//    model.addAttribute("currentUser", usersHelper.getAllUsers().get(0));
-//    model.addAttribute("allProducts", usersHelper.getAllProducts());
-//    return "showItems";
-//  }
-//
-  @RequestMapping(value = "/showItems", method = RequestMethod.GET)
-  public String getShowItems(Model model) {
-    model.addAttribute("currentUser", usersHelper.getAllUsers().get(0));
-    model.addAttribute("allProducts", usersHelper.getAllProducts());
-    return "showItems";
+  @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
+  public String getShowItems(Model model, Principal principal) {
+    Optional<Principal> pr = Optional.ofNullable(principal);
+    System.out.println(pr);
+    if (pr.isPresent()) {
+      model.addAttribute("currentUser", usersHelper.getUserByLogin(pr.get().getName()));
+      model.addAttribute("allProducts", usersHelper.getAllProducts());
+      return "showAllItems";
+    } else {
+      model.addAttribute("allProducts", usersHelper.getAllProducts());
+      return "guestPage";
+    }
   }
 
   //  @RequestMapping(value = "/showItems", method = RequestMethod.GET)

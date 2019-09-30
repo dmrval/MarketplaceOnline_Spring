@@ -21,10 +21,5 @@ public class AppWebConfiguration extends WebMvcConfigurationSupport {
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
 
-  //  @Override
-  //  public void addViewControllers(ViewControllerRegistry registry) {
-  //    registry.addViewController("/").setViewName("forward:/login/");
-  //    registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-  //    super.addViewControllers(registry);
-  //  }
+
 }

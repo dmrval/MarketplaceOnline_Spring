@@ -1,5 +1,6 @@
 package com.epam.dmrval.configuration;
 
+import com.epam.dmrval.configuration.security.WebSecurityConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -12,7 +13,10 @@ public class AppInitializer implements WebApplicationInitializer {
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
     AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-    context.register(AppWebConfiguration.class, BeanConfiguration.class /*, SwaggerConfig.class*/);
+    context.register(
+        AppWebConfiguration.class,
+        BeanConfiguration.class,
+        WebSecurityConfig.class);
     context.setServletContext(servletContext);
 
     ServletRegistration.Dynamic dispatcher =

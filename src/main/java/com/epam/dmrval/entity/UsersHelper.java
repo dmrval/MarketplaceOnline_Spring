@@ -1,9 +1,12 @@
 package com.epam.dmrval.entity;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /** Author - Damir_Valeev Created on 9/16/2019 */
+@Service
 public class UsersHelper {
   public List<User> allUsers = new ArrayList<>();
 
@@ -51,22 +54,13 @@ public class UsersHelper {
     this.allUsers = allUsers;
   }
 
-  public User getUserByUserName(String username) {
-    for (User tmp : allUsers) {
-      if (tmp.getFullname().equals(username)) {
-        return tmp;
-      }
-    }
-    return new User("NotFound", "NotFound", "NotFound", Sex.MR);
-  }
-
   public User getUserByLogin(String login) {
     for (User tmp : allUsers) {
       if (tmp.getLogin().equals(login)) {
         return tmp;
       }
     }
-    return new User("NotFound", "NotFound", "NotFound", Sex.MR);
+    return null;
   }
 
   public AuctionProductInfo getAuctionByInfo(String nameProduct) {

@@ -21,14 +21,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/**")
-        .hasAuthority("USER")
-        .antMatchers("/showItems")
-        .hasAuthority("IS_AUTHENTICATED_ANONYMOUSLY")
-        .anyRequest()
+        .antMatchers("/showAllItems")
         .permitAll()
         .antMatchers("/signUp")
         .permitAll()
+        .antMatchers("/**")
+        .hasAuthority("USER")
         .and()
         .formLogin()
         .loginPage("/login")
@@ -36,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             (req, res, auth) -> {
               for (GrantedAuthority authority : auth.getAuthorities()) {
                 if (authority.getAuthority().equals("USER")) {
-                  res.sendRedirect("/showItems/");
+                  res.sendRedirect("/showAllItems/");
                 }
               }
             })

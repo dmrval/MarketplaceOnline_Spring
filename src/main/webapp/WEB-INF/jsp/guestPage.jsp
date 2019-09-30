@@ -24,20 +24,19 @@
 
 <h4 class="search_parameters">Search parameters</h4>
 
-<form name="searchParams" action="/searchParams" method="post" class="keyword">
+<form name="searchParams" action="/guest/searchParams" method="post" class="keyword">
     <h5>Keyword:</h5>
     <div class="field">
         <input type="text" name="searchText" value=""/>
         <select name="selecter">
             <option>Name</option>
-            <option>Description</option>
             <option>Seller</option>
         </select>
         <button>Search</button>
     </div>
 </form>
 <div>
-    <span class="logout_span"><a href="/guestLogin">Show All Items</a></span>
+    <span class="logout_span"><a href="/guest">Show All Items</a></span>
 </div>
 
 <div class="div_center">

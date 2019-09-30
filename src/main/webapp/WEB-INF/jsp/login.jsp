@@ -35,7 +35,7 @@
 <br>
 <div class="login">
     <button class="login_buttons, bigButton" name="submit" type="submit">Reset</button>
-    <button class="login_buttons, bigButton" name="submit" type="button"><a href="/showAllItems" class="button">Enter as guest</a></button>
+    <button class="login_buttons, bigButton" name="submit" type="button"><a href="/guest" class="button">Enter as guest</a></button>
     <button class="login_buttons, bigButton" name="submit" type="button"><a href="/signUp" class="button">Registration</a></button>
 </div>
 </body>

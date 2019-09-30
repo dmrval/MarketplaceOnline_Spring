@@ -40,7 +40,7 @@
 
 
 <div>
-    <span class="logout_span"><a href="/showItems">Show All Items</a></span>
+    <span class="logout_span"><a href="/showAllItems">Show All Items</a></span>
     <span class="logout_span"><a href="/showMyItems?currentUser=${currentUser.fullname}">Show My Items</a></span>
     <span class="logout_span"><a href="/addProduct">Sell</a></span>
 </div>

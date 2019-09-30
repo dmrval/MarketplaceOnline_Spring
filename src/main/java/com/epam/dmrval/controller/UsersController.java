@@ -30,14 +30,14 @@ public class UsersController {
     return "registration";
   }
 
-  @RequestMapping(value = "/showItems", method = RequestMethod.GET)
+  @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String getShowItems(Model model, Principal principal) {
     Optional<Principal> pr = Optional.ofNullable(principal);
     System.out.println(pr);
     if (pr.isPresent()) {
       model.addAttribute("currentUser", usersHelper.getUserByLogin(pr.get().getName()));
       model.addAttribute("allProducts", usersHelper.getAllProducts());
-      return "showItems";
+      return "showAllItems";
     } else {
       model.addAttribute("allProducts", usersHelper.getAllProducts());
       return "guestPage";

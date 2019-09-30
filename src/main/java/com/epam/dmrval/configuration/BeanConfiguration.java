@@ -22,5 +22,4 @@ public class BeanConfiguration {
     bean.setSuffix(".jsp");
     return bean;
   }
-
 }

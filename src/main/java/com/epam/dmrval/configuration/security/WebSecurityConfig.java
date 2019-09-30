@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/showItems")
+        .antMatchers("/showAllItems")
         .permitAll()
         .antMatchers("/signUp")
         .permitAll()
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             (req, res, auth) -> {
               for (GrantedAuthority authority : auth.getAuthorities()) {
                 if (authority.getAuthority().equals("USER")) {
-                  res.sendRedirect("/showItems/");
+                  res.sendRedirect("/showAllItems/");
                 }
               }
             })

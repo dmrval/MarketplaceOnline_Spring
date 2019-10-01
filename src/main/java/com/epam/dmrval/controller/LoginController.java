@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /** Author - Damir_Valeev Created on 9/30/2019 */
 @Controller
 public class LoginController {
+
   @RequestMapping(method = RequestMethod.GET)
   public String getRootPath() {
     return getLogin();
@@ -26,6 +27,4 @@ public class LoginController {
   public String getAccessDenied() {
     return "403";
   }
-
-
 }

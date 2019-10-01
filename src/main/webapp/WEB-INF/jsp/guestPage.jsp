@@ -31,12 +31,13 @@
         <select name="selecter">
             <option>Name</option>
             <option>Seller</option>
+            <option>Start price</option>
         </select>
         <button>Search</button>
     </div>
 </form>
 <div>
-    <span class="logout_span"><a href="/guest">Show All Items</a></span>
+    <span class="logout_span"><a href="/guest/showAllItems">Show All Items</a></span>
 </div>
 
 <div class="div_center">

@@ -1,5 +1,6 @@
 package com.epam.dmrval.controller;
 
+import com.epam.dmrval.entity.User;
 import com.epam.dmrval.entity.UsersHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,25 +10,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
 public class UsersController {
+  public static final String MY_ITEMS = "showMyItems";
+  public static final String ALL_ITEMS = "showAllItems";
 
   @Autowired UsersHelper usersHelper;
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String getShowItems(Model model, Principal principal) {
-    Optional<Principal> pr = Optional.ofNullable(principal);
-    if (pr.isPresent()) {
-      model.addAttribute("currentUser", usersHelper.getUserByLogin(pr.get().getName()));
-      model.addAttribute("allProducts", usersHelper.getAllProducts());
-      return "showAllItems";
-    } else {
-      model.addAttribute("allProducts", usersHelper.getAllProducts());
-      return "guestPage";
-    }
+    model.addAttribute("currentUser", usersHelper.getUserByLogin(principal.getName()));
+    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    return "showAllItems";
   }
 
   @RequestMapping(value = "/searchParams", method = RequestMethod.POST)
@@ -35,7 +31,25 @@ public class UsersController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchParam(model, selecter, searchText, usersHelper);
+    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper);
     return "showAllItems";
+  }
+
+  @RequestMapping(value = "/showMyItems", method = RequestMethod.GET)
+  public String getshowMyItems(Model model, Principal principal) {
+    model.addAttribute("currentUser", usersHelper.getUserByLogin(principal.getName()));
+    model.addAttribute(
+        "userItems", usersHelper.getUserByLogin(principal.getName()).getProductList());
+    return "showMyItems";
+  }
+
+  @RequestMapping(value = "/showMyItems/searchParams", method = RequestMethod.POST)
+  public String postSearchMyItems(
+      Model model,
+      @RequestParam("searchText") String searchText,
+      Principal principal) {
+    User currentUser = usersHelper.getUserByLogin(principal.getName());
+    RequestHelper.getSearchMyItemsParam(model, searchText, currentUser);
+    return "showMyItems";
   }
 }

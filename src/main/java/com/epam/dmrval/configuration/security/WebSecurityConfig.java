@@ -1,5 +1,6 @@
 package com.epam.dmrval.configuration.security;
 
+import com.epam.dmrval.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,15 +27,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/signUp")
         .permitAll()
         .antMatchers("/user/**")
-        .hasAuthority("USER")
+        .hasAuthority(Role.USER.name())
         .and()
         .formLogin()
         .loginPage("/login")
         .successHandler(
             (req, res, auth) -> {
               for (GrantedAuthority authority : auth.getAuthorities()) {
-                if (authority.getAuthority().equals("USER")) {
-                  res.sendRedirect("/showAllItems/");
+                if (authority.getAuthority().equals(Role.USER.name())) {
+                  res.sendRedirect("/user/showAllItems");
                 }
               }
             })

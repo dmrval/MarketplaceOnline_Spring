@@ -26,7 +26,7 @@
 
 <h4 class="search_parameters">Search parameters</h4>
 
-<form name="searchParams" action="/searchParams" method="post" class="keyword">
+<form name="searchParams" action="/user/searchParams" method="post" class="keyword">
     <h5>Keyword:</h5>
     <div class="field">
         <input type="text" name="searchText" value=""/>
@@ -40,9 +40,9 @@
 
 
 <div>
-    <span class="logout_span"><a href="/showAllItems">Show All Items</a></span>
-    <span class="logout_span"><a href="/showMyItems?currentUser=${currentUser.fullname}">Show My Items</a></span>
-    <span class="logout_span"><a href="/addProduct">Sell</a></span>
+    <span class="logout_span"><a href="/user/showAllItems">Show All Items</a></span>
+    <span class="logout_span"><a href="/user/showMyItems">Show My Items</a></span>
+    <span class="logout_span"><a href="/user/addProduct">Sell</a></span>
 </div>
 <div class="div_center">
     <h2>Dear ${currentUser.sex.respectCall} ${currentUser.fullname}. Here are all the products in the auction.</h2>

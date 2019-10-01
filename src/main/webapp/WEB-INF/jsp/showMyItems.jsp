@@ -32,7 +32,8 @@
     <div class="field">
         <input type="text" name="searchText" value=""/>
         <select name="selecter">
-            <option>Name</option>
+            <option>Title</option>
+            <option>Start price</option>
         </select>
         <button>Search</button>
     </div>

@@ -34,6 +34,7 @@
             <option>Start price</option>
         </select>
         <button>Search</button>
+        <span class="logout_span"><a href="/advancedSearch">Advanced Search</a></span>
     </div>
 </form>
 <div>
@@ -86,7 +87,8 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>${product.info.time}</td>
+
+                <td>${product.info.getLocalDateTime()}</td>
             </tr>
         </c:forEach>
     </table>

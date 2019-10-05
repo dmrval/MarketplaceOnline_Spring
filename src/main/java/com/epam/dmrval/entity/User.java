@@ -26,17 +26,18 @@ public class User {
   public User(
       String fullname, String address, String login, String password, Sex sex, Role userRole) {
     productList = new ArrayList<>();
-
     this.fullname = fullname;
     this.address = address;
     this.login = login;
     this.password = password;
     this.sex = sex;
-    this.productList = productList;
     this.userRole = userRole;
   }
 
-  public User() {}
+  public User() {
+    this.userRole = Role.USER;
+    productList = new ArrayList<>();
+  }
 
   public User(String fullname) {
     this.fullname = fullname;

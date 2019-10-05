@@ -36,6 +36,7 @@
             <option>Start price</option>
         </select>
         <button>Search</button>
+        <span class="logout_span"><a href="/advancedSearch">Advanced Search</a></span>
     </div>
 </form>
 
@@ -43,7 +44,7 @@
 <div>
     <span class="logout_span"><a href="/user/showAllItems">Show All Items</a></span>
     <span class="logout_span"><a href="/user/showMyItems">Show My Items</a></span>
-    <span class="logout_span"><a href="/user/addProduct">Sell</a></span>
+    <span class="logout_span"><a href="/user/sellProduct">Sell</a></span>
 </div>
 <div class="div_center">
     <h2>Dear ${currentUser.sex.respectCall} ${currentUser.fullname}. Here are all the products in the auction.</h2>
@@ -92,14 +93,14 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>${product.info.time}</td>
+                <td>${product.info.getLocalDateTime()}</td>
                 <td>
                     <c:choose>
                         <c:when test="${product.info.bidding == true && !product.info.master.fullname.equals(currentUser.fullname)}">
-                            <form name="biddUp" action="/biddUp" method="post">
+                            <form name="biddUp" action="/user/biddUp" method="post">
                                 <input type="number" name="biddLot" value="${product.info.stepLevel}"
                                        min="${product.info.stepLevel}">
-                                <input hidden name="biddInfo" value="${product.nameProduct}">
+                                <input hidden name="biddInfo" value="${product.getUid()}">
                                 <button id="bidButton">Bid</button>
                             </form>
                         </c:when>

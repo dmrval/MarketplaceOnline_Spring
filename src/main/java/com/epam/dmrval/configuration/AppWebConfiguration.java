@@ -20,6 +20,4 @@ public class AppWebConfiguration extends WebMvcConfigurationSupport {
         .addResourceHandler("/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
-
-
 }

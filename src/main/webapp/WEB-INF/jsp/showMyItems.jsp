@@ -36,6 +36,7 @@
             <option>Start price</option>
         </select>
         <button>Search</button>
+        <span class="logout_span"><a href="/advancedSearch">Advanced Search</a></span>
     </div>
 </form>
 
@@ -43,7 +44,7 @@
 <div>
     <span class="logout_span"><a href="/user/showAllItems">Show All Items</a></span>
     <span class="logout_span"><a href="/user/showMyItems">Show My Items</a></span>
-    <span class="logout_span"><a href="/user/addProduct">Sell</a></span>
+    <span class="logout_span"><a href="/user/sellProduct">Sell</a></span>
 </div>
 <div class="div_center">
     <h2>Dear ${currentUser.sex.respectCall} ${currentUser.fullname}. Here are your products.</h2>
@@ -65,7 +66,7 @@
                 <td><c:out value="${prod.description}"/></td>
                 <td><c:out value="${prod.info.startPrice}"/></td>
                 <td><c:out value="${prod.info.stepLevel}"/></td>
-                <td><c:out value="${prod.info.time}"/></td>
+                <td><c:out value="${prod.info.getLocalDateTime()}"/></td>
             </tr>
         </c:forEach>
     </table>

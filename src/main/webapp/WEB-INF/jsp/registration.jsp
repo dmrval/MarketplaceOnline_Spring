@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,45 +13,51 @@
 </head>
 
 <body>
-<form name="reg" action="/registr" method="post">
-    <fieldset>
+<%--@elvariable id="user" type="com.epam.dmrval.entity.User"--%>
+
+
+<c:if test="${passNotMatch==1}">
+    The entered passwords do not match
+</c:if>
+<form:form name="reg" modelAttribute="user" action="/registration" method="post">
+    <fieldset class="fieldcss">
         <legend>Registration</legend>
         <div class="reg">
-            <label for="fullname">Full Name:</label>
-            <input type="text" id="fullname" name="fullname" value=""/>
+            <form:label path="fullname">Full Name:</form:label>
+            <form:input path="fullname" type="text" id="fullname" name="fullname" value=""/>
         </div>
         <br>
         <div class="reg">
-            <label for="address">Billing address:</label>
-            <input type="text" id="address" name="address" value=""/>
+            <form:label path="address">Billing address:</form:label>
+            <form:input path="address" type="text" id="address" name="address" value=""/>
         </div>
         <br>
+        <hr>
         <br>
         <div>
             <div class="reg">
-                <label for="login">Login:</label>
-                <input type="text" id="login" name="login" value=""/>
+                <form:label path="login" for="login">Login:</form:label>
+                <form:input path="login" type="text" id="login" name="login" value=""/>
             </div>
             <br>
             <div class="reg">
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password" value=""/>
+                <form:label path="password" for="password">Password:</form:label>
+                <form:input path="password" type="password" id="password" name="password" value=""/>
             </div>
             <br>
             <div class="reg">
                 <label for="repassword">Re-enter Password</label>
-                <input type="text" id="repassword" name="repassword" value=""/>
+                <input type="password" id="repassword" name="repassword" value=""/>
             </div>
         </div>
         <br>
         <div>
             <input class="registration_buttons" name="submit" type="submit" value="Registration"/>
             <button class="registration_buttons" name="submit" type="submit">Reset</button>
-
         </div>
 
     </fieldset>
-</form>
+</form:form>
 
 
 </body>

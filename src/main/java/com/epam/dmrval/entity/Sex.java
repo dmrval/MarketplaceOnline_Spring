@@ -11,11 +11,7 @@ public enum Sex {
     this.respectCall = respectCall;
   }
 
-
-    public String getRespectCall() {
-        return respectCall;
-    }
-
-
-
+  public String getRespectCall() {
+    return respectCall;
+  }
 }

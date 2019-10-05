@@ -1,7 +1,9 @@
 package com.epam.dmrval.configuration;
 
+import com.epam.dmrval.entity.UsersHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -21,5 +23,10 @@ public class BeanConfiguration {
     bean.setPrefix("/WEB-INF/jsp/");
     bean.setSuffix(".jsp");
     return bean;
+  }
+
+  @Bean
+  public UsersHelper usersHelper() {
+    return new UsersHelper();
   }
 }

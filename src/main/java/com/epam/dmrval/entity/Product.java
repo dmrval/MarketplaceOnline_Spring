@@ -2,10 +2,10 @@ package com.epam.dmrval.entity;
 
 /** Author - Damir_Valeev Created on 9/12/2019 */
 public class Product {
-  int uid;
-  String nameProduct;
-  String description;
-  AuctionProductInfo info;
+  private int uid;
+  private String nameProduct;
+  private String description;
+  private AuctionProductInfo info;
 
   public Product(int uid, String nameProduct, String description, AuctionProductInfo info) {
     this.uid = uid;
@@ -13,6 +13,8 @@ public class Product {
     this.description = description;
     this.info = info;
   }
+
+  public Product() {}
 
   public int getUid() {
     return uid;

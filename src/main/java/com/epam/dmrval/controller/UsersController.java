@@ -1,59 +1,83 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.entity.User;
-import com.epam.dmrval.entity.UsersHelper;
+import com.epam.dmrval.entity.*;
 import com.epam.dmrval.service.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/user")
+@SessionAttributes(value = "currentUser")
 public class UsersController {
-    public static final String MY_ITEMS = "showMyItems";
-    public static final String ALL_ITEMS = "showAllItems";
 
-    @Autowired
-    UsersHelper usersHelper;
+  @Autowired private UsersHelper usersHelper;
 
-    @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
-    public String getShowItems(Model model, Principal principal) {
-        model.addAttribute("currentUser", usersHelper.getUserByLogin(principal.getName()));
-        model.addAttribute("allProducts", usersHelper.getAllProducts());
-        return "showAllItems";
+  @ModelAttribute("currentUser")
+  public User createUser(Principal principal) {
+    return usersHelper.getUserByLogin(principal.getName());
+  }
+
+  @ModelAttribute("buildProduct")
+  ProductBuilder buildProduct() {
+    return new ProductBuilder();
+  }
+
+  @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
+  public String showItems(Model model) {
+    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    return "showAllItems";
+  }
+
+  @RequestMapping(value = "/searchParams", method = RequestMethod.POST)
+  public String searchParams(
+      Model model,
+      @RequestParam("selecter") String selecter,
+      @RequestParam("searchText") String searchText) {
+    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper.getAllProducts());
+    return "showAllItems";
+  }
+
+  @RequestMapping(value = "/sellProduct", method = RequestMethod.GET)
+  public String sellProduct() {
+    return "sellProduct";
+  }
+
+  @RequestMapping(value = "/sellProduct/cancel", method = RequestMethod.GET)
+  public String sellProductCancel() {
+    return "redirect:/user/showAllItems";
+  }
+
+  @RequestMapping(value = "/sellProduct", method = RequestMethod.POST)
+  public String sellProduct(
+      @ModelAttribute("currentUser") User currentUser,
+      @ModelAttribute("buildProduct") @Valid ProductBuilder buildProduct,
+      BindingResult bindingResult) {
+    Product newProduct = buildProduct.build(currentUser);
+    if (bindingResult.hasErrors()) {
+      return "sellProduct";
     }
-
-    @RequestMapping(value = "/searchParams", method = RequestMethod.POST)
-    public String postSearchParams(
-            Model model,
-            @RequestParam("selecter") String selecter,
-            @RequestParam("searchText") String searchText) {
-        RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper.getAllProducts());
-        return "showAllItems";
+    if (!Objects.isNull(newProduct)) {
+      currentUser.getProductList().add(newProduct);
     }
+    return "redirect:/user/showMyItems";
+  }
 
-    @RequestMapping(value = "/showMyItems", method = RequestMethod.GET)
-    public String getshowMyItems(Model model, Principal principal) {
-        model.addAttribute("currentUser", usersHelper.getUserByLogin(principal.getName()));
-        model.addAttribute(
-                "userItems", usersHelper.getUserByLogin(principal.getName()).getProductList());
-        return "showMyItems";
-    }
-
-    @RequestMapping(value = "/showMyItems/searchParams", method = RequestMethod.POST)
-    public String postSearchMyItems(
-            Model model,
-            @RequestParam("selecter") String selecter,
-            @RequestParam("searchText") String searchText,
-            Principal principal) {
-        User currentUser = usersHelper.getUserByLogin(principal.getName());
-        RequestHelper.getSearchMyItemsParam(model, selecter, searchText, currentUser.getProductList());
-        model.addAttribute("currentUser", usersHelper.getUserByLogin(principal.getName()));
-        return "showMyItems";
-    }
+  @RequestMapping(value = "/biddUp", method = RequestMethod.POST)
+  public String biddUp(
+      @ModelAttribute("currentUser") User currentUser,
+      @RequestParam("biddInfo") String biddInfo,
+      @RequestParam("biddLot") String biddLot) {
+    int idProduct = Integer.parseInt(biddInfo);
+    double bidLot = Double.parseDouble(biddLot);
+    AuctionProductInfo nextBidder = usersHelper.getAuctionByIdProduct(idProduct);
+    nextBidder.setBidder(new Bidder(bidLot, currentUser));
+    return "redirect:/user/showAllItems";
+  }
 }

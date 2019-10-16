@@ -1,7 +1,7 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.dao.ProductDao;
-import com.epam.dmrval.service.RequestHelper;
+import com.epam.dmrval.service.ProductService;
+import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/guest")
 public class GuestController {
 
-  @Autowired private ProductDao productDao;
+  @Autowired private ProductService productService;
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", productDao.getAllProducts());
+    model.addAttribute("allProducts", productService.getAllProducts());
     return "guestPage";
   }
 
@@ -27,7 +27,7 @@ public class GuestController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, productDao.getAllProducts());
+    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, productService.getAllProducts());
     return "guestPage";
   }
 }

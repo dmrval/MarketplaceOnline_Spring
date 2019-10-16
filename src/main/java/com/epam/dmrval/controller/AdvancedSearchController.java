@@ -1,10 +1,9 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.dao.ProductDao;
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductSearcher;
-import com.epam.dmrval.entity.UsersHelper;
-import com.epam.dmrval.service.RequestHelper;
+import com.epam.dmrval.service.ProductService;
+import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +19,7 @@ import java.util.List;
 @Controller
 public class AdvancedSearchController {
 
-
-  @Autowired private ProductDao productDao;
-
+  @Autowired private ProductService productService;
 
   @RequestMapping(value = "/advancedSearch", method = RequestMethod.GET)
   public String advancedSearch() {
@@ -35,7 +32,7 @@ public class AdvancedSearchController {
       Principal principal,
       @Valid @ModelAttribute("productSearcher") ProductSearcher productSearcher,
       BindingResult bindingResult) {
-    List<Product> allProducts = productDao.getAllProducts();
+    List<Product> allProducts = productService.getAllProducts();
     List<Product> resultList = RequestHelper.getAdvancedSearch(allProducts, productSearcher);
     if (bindingResult.hasErrors()) {
       return "advancedSearch";

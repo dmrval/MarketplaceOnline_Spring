@@ -1,7 +1,7 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.*;
-import com.epam.dmrval.service.RequestHelper;
+import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

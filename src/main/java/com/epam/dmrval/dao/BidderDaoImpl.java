@@ -13,7 +13,7 @@ import java.sql.SQLException;
 @Component
 public class BidderDaoImpl implements BidderDao {
 
-  @Autowired UserDao userDao;
+  @Autowired private UserDao userDao;
 
   @Override
   public Bidder findByBidderId(int id_bidder) {

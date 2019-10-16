@@ -15,6 +15,8 @@ public class User {
   private List<Product> productList;
   private Role userRole;
 
+
+
   public User(String fullname, String address, String login, Sex sex) {
     productList = new ArrayList<>();
     this.fullname = fullname;

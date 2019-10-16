@@ -1,4 +1,4 @@
-package com.epam.dmrval.service;
+package com.epam.dmrval.service.helper;
 
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductSearcher;

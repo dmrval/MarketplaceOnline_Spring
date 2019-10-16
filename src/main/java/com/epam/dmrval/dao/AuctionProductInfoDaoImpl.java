@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Component
 public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
 
-  @Autowired BidderDao bidderDao;
-  @Autowired UserDao userDao;
+  @Autowired private BidderDao bidderDao;
+  @Autowired private UserDao userDao;
 
   @Override
   public AuctionProductInfo getAuctionProductInfo(int id_info) {

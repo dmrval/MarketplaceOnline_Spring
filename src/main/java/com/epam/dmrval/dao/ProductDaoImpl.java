@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class ProductDaoImpl implements ProductDao {
 
-  @Autowired AuctionProductInfoDao auctionProductInfoDao;
+  @Autowired private AuctionProductInfoDao auctionProductInfoDao;
 
   @Override
   public Product findByName(String name) {

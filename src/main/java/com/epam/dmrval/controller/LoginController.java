@@ -1,18 +1,10 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.entity.Product;
-import com.epam.dmrval.entity.ProductSearcher;
 import com.epam.dmrval.entity.UsersHelper;
-import com.epam.dmrval.service.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.security.Principal;
-import java.util.List;
 
 /** Author - Damir_Valeev Created on 9/30/2019 */
 @Controller
@@ -34,6 +26,4 @@ public class LoginController {
   public String accessDenied() {
     return "403";
   }
-
-
 }

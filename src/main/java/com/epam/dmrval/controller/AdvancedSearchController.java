@@ -37,11 +37,10 @@ public class AdvancedSearchController {
     if (bindingResult.hasErrors()) {
       return "advancedSearch";
     }
+    model.addAttribute("allProducts", resultList);
     if (principal != null) {
-      model.addAttribute("allProducts", resultList);
       return "showAllItems";
     } else {
-      model.addAttribute("allProducts", resultList);
       return "guestPage";
     }
   }
@@ -52,11 +51,10 @@ public class AdvancedSearchController {
   }
 
   private String checkUser(Principal principal, List<Product> resultList, Model model) {
+    model.addAttribute("allProducts", resultList);
     if (principal != null) {
-      model.addAttribute("allProducts", resultList);
       return "showAllItems";
     } else {
-      model.addAttribute("allProducts", resultList);
       return "guestPage";
     }
   }

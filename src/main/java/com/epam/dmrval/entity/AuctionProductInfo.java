@@ -34,13 +34,13 @@ public class AuctionProductInfo {
     this.isBidding = isBidding;
   }
 
-  AuctionProductInfo(
-      double startPrice,
-      double stepLevel,
-      Bidder bidder,
-      LocalDateTime time,
-      User master,
-      boolean isBidding) {
+  public AuctionProductInfo(
+          double startPrice,
+          double stepLevel,
+          Bidder bidder,
+          LocalDateTime time,
+          User master,
+          boolean isBidding) {
     this.startPrice = startPrice;
     this.stepLevel = stepLevel;
     this.bidder = bidder;

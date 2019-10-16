@@ -1,5 +1,6 @@
 package com.epam.dmrval.controller;
 
+import com.epam.dmrval.dao.ProductDao;
 import com.epam.dmrval.entity.UsersHelper;
 import com.epam.dmrval.service.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,12 @@ public class GuestController {
 
   @Autowired private UsersHelper usersHelper;
 
+  @Autowired private ProductDao productDao;
+
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    //    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    model.addAttribute("allProducts", productDao.getAllProducts());
     return "guestPage";
   }
 

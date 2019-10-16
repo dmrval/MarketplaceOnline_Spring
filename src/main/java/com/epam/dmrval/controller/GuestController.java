@@ -1,7 +1,6 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.dao.ProductDao;
-import com.epam.dmrval.entity.UsersHelper;
 import com.epam.dmrval.service.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/guest")
 public class GuestController {
 
-  @Autowired private UsersHelper usersHelper;
-
   @Autowired private ProductDao productDao;
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    //    model.addAttribute("allProducts", usersHelper.getAllProducts());
     model.addAttribute("allProducts", productDao.getAllProducts());
     return "guestPage";
   }
@@ -31,7 +27,7 @@ public class GuestController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper.getAllProducts());
+    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, productDao.getAllProducts());
     return "guestPage";
   }
 }

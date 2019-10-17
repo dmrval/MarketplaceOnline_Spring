@@ -24,7 +24,7 @@ public class BidderDaoImpl implements BidderDao {
                 "SELECT BIDDEROFFER,BIDDERUSER_FK FROM BIDDER WHERE BIDDERID=?")) {
       ResultSet rs = JdbcConnections.insertPreparedStatement(ps, id_bidder);
       while (rs.next()) {
-        bidder = new Bidder(rs.getDouble(1), userDao.getUser(rs.getInt(2)));
+        bidder = new Bidder(rs.getDouble(1), userDao.getUserById(rs.getInt(2)));
       }
     } catch (SQLException e) {
       e.printStackTrace();

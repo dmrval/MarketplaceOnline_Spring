@@ -1,6 +1,9 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.*;
+import com.epam.dmrval.service.AuctionProductInfoService;
+import com.epam.dmrval.service.ProductService;
+import com.epam.dmrval.service.UserService;
 import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +20,13 @@ import java.util.Objects;
 @SessionAttributes(value = "currentUser")
 public class UsersController {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired UserService userService;
+  @Autowired ProductService productService;
+  @Autowired AuctionProductInfoService auctionProductInfoService;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
-    return usersHelper.getUserByLogin(principal.getName());
+    return userService.findByLogin(principal.getName());
   }
 
   @ModelAttribute("buildProduct")
@@ -31,7 +36,7 @@ public class UsersController {
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    model.addAttribute("allProducts", productService.getAllProducts());
     return "showAllItems";
   }
 
@@ -40,7 +45,8 @@ public class UsersController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper.getAllProducts());
+    RequestHelper.getSearchAllItemsParam(
+        model, selecter, searchText, productService.getAllProducts());
     return "showAllItems";
   }
 
@@ -76,7 +82,7 @@ public class UsersController {
       @RequestParam("biddLot") String biddLot) {
     int idProduct = Integer.parseInt(biddInfo);
     double bidLot = Double.parseDouble(biddLot);
-    AuctionProductInfo nextBidder = usersHelper.getAuctionByIdProduct(idProduct);
+    AuctionProductInfo nextBidder = auctionProductInfoService.getAuctionByIdProduct(idProduct);
     nextBidder.setBidder(new Bidder(bidLot, currentUser));
     return "redirect:/user/showAllItems";
   }

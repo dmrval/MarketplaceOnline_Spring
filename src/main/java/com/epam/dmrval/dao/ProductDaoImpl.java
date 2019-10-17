@@ -27,18 +27,11 @@ public class ProductDaoImpl implements ProductDao {
     List<Product> result = new ArrayList<>();
     try {
       try (Connection connection = JdbcConnections.connectToDataBase();
-          PreparedStatement ps = connection.prepareStatement("SELECT PRODUCTID,NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM  Products")) {
+          PreparedStatement ps =
+              connection.prepareStatement(
+                  "SELECT PRODUCTID,NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM  PRODUCTS")) {
         ResultSet rs = ps.executeQuery();
-        Product temp;
-        while (rs.next()) {
-          temp =
-              new Product(
-                  rs.getInt(1),
-                  rs.getString(2),
-                  rs.getString(3),
-                  auctionProductInfoDao.getAuctionProductInfo(rs.getInt(4)));
-          result.add(temp);
-        }
+        buildProductsListOfResultSet(rs, result);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -46,8 +39,45 @@ public class ProductDaoImpl implements ProductDao {
     return result;
   }
 
-  public static void main(String[] args) {
-    System.out.println(new ProductDaoImpl().getAllProducts().get(3).getNameProduct());
+  @Override
+  public List<Product> getProductsByUserId(int usedId) {
+    List<Product> result = new ArrayList<>();
+    try {
+      try (Connection connection = JdbcConnections.connectToDataBase();
+          PreparedStatement ps =
+              connection.prepareStatement(
+                  "SELECT PRODUCTID,NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM PRODUCTS "
+                      + "where AUCTIONINFO_FK IN"
+                      + "(SELECT INFOID FROM AUCTIONPRODUCTINFO WHERE USER_MASTER_FK=?)")) {
+        ps.setInt(1, usedId);
+        ResultSet rs = ps.executeQuery();
+        buildProductsListOfResultSet(rs, result);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+
+  @Override
+  public List<Product> getProductsByUserLogin(String login) {
+    List<Product> result = new ArrayList<>();
+    try {
+      try (Connection connection = JdbcConnections.connectToDataBase();
+          PreparedStatement ps =
+              connection.prepareStatement(
+                  "SELECT PRODUCTID, NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM PRODUCTS "
+                      + "WHERE AUCTIONINFO_FK IN "
+                      + "(SELECT AUCTIONPRODUCTINFO.INFOID FROM AUCTIONPRODUCTINFO LEFT JOIN USERS ON "
+                      + "(USERS.USERID=AUCTIONPRODUCTINFO.USER_MASTER_FK) WHERE USERS.LOGIN=?)")) {
+        ps.setString(1, login);
+        ResultSet rs = ps.executeQuery();
+        buildProductsListOfResultSet(rs, result);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 
   @Override
@@ -60,4 +90,18 @@ public class ProductDaoImpl implements ProductDao {
 
   @Override
   public void updateProduct(Product product) {}
+
+  private void buildProductsListOfResultSet(ResultSet rs, List<Product> result)
+      throws SQLException {
+    Product temp;
+    while (rs.next()) {
+      temp =
+          new Product(
+              rs.getInt(1),
+              rs.getString(2),
+              rs.getString(3),
+              auctionProductInfoDao.getAuctionProductInfo(rs.getInt(4)));
+      result.add(temp);
+    }
+  }
 }

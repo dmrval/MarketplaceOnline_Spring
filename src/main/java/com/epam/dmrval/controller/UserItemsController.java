@@ -1,27 +1,27 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.User;
-import com.epam.dmrval.entity.UsersHelper;
+import com.epam.dmrval.service.ProductService;
+import com.epam.dmrval.service.UserService;
 import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/user/showMyItems")
+@SessionAttributes(value = "currentUser")
 public class UserItemsController {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired UserService userService;
+  @Autowired ProductService productService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public String showMyItems(Model model, Principal principal) {
-    model.addAttribute(
-        "userItems", usersHelper.getUserByLogin(principal.getName()).getProductList());
+  public String showMyItems(Model model, @ModelAttribute("currentUser") User currentUser) {
+    model.addAttribute("userItems", productService.getProductsByUserLogin(currentUser.getLogin()));
     return "showMyItems";
   }
 
@@ -31,7 +31,7 @@ public class UserItemsController {
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText,
       Principal principal) {
-    User currentUser = usersHelper.getUserByLogin(principal.getName());
+    User currentUser = userService.findByLogin(principal.getName());
     RequestHelper.getSearchMyItemsParam(model, selecter, searchText, currentUser.getProductList());
     return "showMyItems";
   }

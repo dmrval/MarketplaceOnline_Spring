@@ -9,6 +9,10 @@ public interface ProductDao {
 
   List<Product> getAllProducts();
 
+  List<Product> getProductsByUserId(int usedId);
+
+  List<Product> getProductsByUserLogin(String login);
+
   Product getProduct(int id);
 
   void saveProduct(Product product);

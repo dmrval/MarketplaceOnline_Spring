@@ -4,4 +4,5 @@ import com.epam.dmrval.entity.AuctionProductInfo;
 
 public interface AuctionProductInfoDao {
   AuctionProductInfo getAuctionProductInfo(int id_info);
+  AuctionProductInfo getAuctionByIdProduct(int idProduct);
 }

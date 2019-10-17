@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public User getUser(int id) {
+  public User getUserById(int id) {
     User user = null;
     try (Connection connection = JdbcConnections.connectToDataBase();
         PreparedStatement ps =
@@ -52,6 +52,8 @@ public class UserDaoImpl implements UserDao {
     }
     return user;
   }
+
+
 
   @Override
   public void saveUser(User user) {}

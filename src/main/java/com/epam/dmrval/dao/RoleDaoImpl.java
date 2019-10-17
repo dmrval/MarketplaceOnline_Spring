@@ -27,7 +27,4 @@ public class RoleDaoImpl implements RoleDao {
     return role;
   }
 
-  public static void main(String[] args) {
-    System.out.println(new RoleDaoImpl().findById(1));
-  }
 }

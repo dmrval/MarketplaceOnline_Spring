@@ -11,6 +11,8 @@ public interface ProductService {
 
   Product getProduct(int id);
 
+  List<Product> getProductsByUserLogin(String login);
+
   void saveProduct(Product product);
 
   void updateProduct(Product product);

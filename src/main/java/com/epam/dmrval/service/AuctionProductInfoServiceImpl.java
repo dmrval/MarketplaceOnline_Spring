@@ -13,4 +13,9 @@ public class AuctionProductInfoServiceImpl implements AuctionProductInfoService 
   public AuctionProductInfo getAuctionProductInfo(int id_info) {
     return auctionProductInfoDao.getAuctionProductInfo(id_info);
   }
+
+  @Override
+  public AuctionProductInfo getAuctionByIdProduct(int idProduct) {
+    return auctionProductInfoDao.getAuctionByIdProduct(idProduct);
+  }
 }

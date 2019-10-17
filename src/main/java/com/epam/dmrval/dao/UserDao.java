@@ -4,6 +4,7 @@ import com.epam.dmrval.entity.User;
 
 import java.util.List;
 
+/** Author - Damir_Valeev */
 public interface UserDao {
   User findByLogin(String login);
 

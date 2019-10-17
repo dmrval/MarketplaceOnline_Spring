@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/** Author - Damir_Valeev */
 @Component
 public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
 

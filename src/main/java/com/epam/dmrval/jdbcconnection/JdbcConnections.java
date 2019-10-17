@@ -2,6 +2,7 @@ package com.epam.dmrval.jdbcconnection;
 
 import java.sql.*;
 
+/** Author - Damir_Valeev */
 public class JdbcConnections {
 
   public static Connection connectToDataBase() throws SQLException {

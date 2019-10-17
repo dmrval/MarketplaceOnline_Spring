@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+/** Author - Damir_Valeev */
 @Configuration
 public class BeanConfiguration {
   @Bean

@@ -1,12 +1,12 @@
 package com.epam.dmrval.entity;
 
 import com.epam.dmrval.validators.IdDigitValid;
-import com.epam.dmrval.validators.MinPrice;
 import com.epam.dmrval.validators.SearchDigitValid;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+/** Author - Damir_Valeev */
 public class ProductSearcher {
   @IdDigitValid private int uid = 0;
   private String nameProduct;

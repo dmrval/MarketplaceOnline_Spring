@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+/** Author - Damir_Valeev */
 @Controller
 @RequestMapping("/user/showMyItems")
 @SessionAttributes(value = "currentUser")

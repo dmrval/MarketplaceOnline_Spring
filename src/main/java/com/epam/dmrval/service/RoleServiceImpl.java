@@ -5,6 +5,7 @@ import com.epam.dmrval.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/** Author - Damir_Valeev */
 @Component
 public class RoleServiceImpl implements RoleService {
   @Autowired RoleDao roleDao;

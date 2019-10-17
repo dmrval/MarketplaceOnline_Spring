@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Author - Damir_Valeev */
 @Component
 public class SexDaoImpl implements SexDao {
   @Override
@@ -26,5 +27,22 @@ public class SexDaoImpl implements SexDao {
       e.printStackTrace();
     }
     return sex;
+  }
+
+  @Override
+  public int findBySexName(String s_name) {
+    int result = 0;
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement ps =
+            connection.prepareStatement("SELECT GENDERID FROM GENDER WHERE GENDERNAME=?")) {
+      ps.setString(1, s_name);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        result = rs.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 }

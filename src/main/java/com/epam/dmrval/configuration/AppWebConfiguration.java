@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+/** Author - Damir_Valeev */
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.dmrval")

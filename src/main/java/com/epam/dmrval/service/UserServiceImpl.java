@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/** Author - Damir_Valeev */
 @Component
 public class UserServiceImpl implements UserService {
 

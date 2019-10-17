@@ -32,6 +32,13 @@
             <form:input path="address" type="text" id="address" name="address" value=""/>
         </div>
         <br>
+        <div class="reg">
+            <form:label path="sex">What to call you:</form:label>
+            <form:select path="sex" id="user_sex" for="user_sex">
+                <form:options items="${Sex.values()}"/>
+            </form:select>
+        </div>
+        <br>
         <hr>
         <br>
         <div>

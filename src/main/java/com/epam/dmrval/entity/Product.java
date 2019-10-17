@@ -1,7 +1,5 @@
 package com.epam.dmrval.entity;
 
-import java.util.UUID;
-
 /** Author - Damir_Valeev Created on 9/12/2019 */
 public class Product {
   private int uid;

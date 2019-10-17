@@ -27,7 +27,8 @@ public class GuestController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, productService.getAllProducts());
+    RequestHelper.getSearchAllItemsParam(
+        model, selecter, searchText, productService.getAllProducts());
     return "guestPage";
   }
 }

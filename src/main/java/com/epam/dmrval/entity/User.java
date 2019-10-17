@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Author - Damir_Valeev */
 @Component
 public class User implements Serializable {
   private String fullname;
@@ -15,8 +16,6 @@ public class User implements Serializable {
   private Sex sex;
   private List<Product> productList;
   private Role userRole;
-
-
 
   public User(String fullname, String address, String login, Sex sex) {
     productList = new ArrayList<>();

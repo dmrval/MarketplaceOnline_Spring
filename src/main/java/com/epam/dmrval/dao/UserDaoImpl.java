@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/** Author - Damir_Valeev */
 @Component
 public class UserDaoImpl implements UserDao {
   @Autowired private RoleDao roleDao;
@@ -53,10 +54,24 @@ public class UserDaoImpl implements UserDao {
     return user;
   }
 
-
-
   @Override
-  public void saveUser(User user) {}
+  public void saveUser(User user) {
+    int genderId = sexDao.findBySexName(user.getSex().name());
+    System.out.println(user.getSex().name());
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement ps =
+            connection.prepareStatement(
+                "INSERT INTO USERS (FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE) VALUES (?,?,?,?,?,1)")) {
+      ps.setString(1, user.getFullname());
+      ps.setString(2, user.getAddress());
+      ps.setString(3, user.getLogin());
+      ps.setString(4, user.getPassword());
+      ps.setInt(5, genderId);
+      ps.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
   @Override
   public void updateUser(User user) {}

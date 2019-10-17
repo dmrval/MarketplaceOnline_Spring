@@ -5,6 +5,7 @@ import com.epam.dmrval.entity.Bidder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/** Author - Damir_Valeev */
 @Component
 public class BidderServiceImpl implements BidderService {
   @Autowired BidderDao bidderDao;

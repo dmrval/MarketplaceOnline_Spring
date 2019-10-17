@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Objects;
 
+/** Author - Damir_Valeev */
 @Controller
 @RequestMapping("/user")
 @SessionAttributes(value = "currentUser")

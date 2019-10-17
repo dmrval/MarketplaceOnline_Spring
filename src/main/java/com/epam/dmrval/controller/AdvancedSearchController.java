@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+/** Author - Damir_Valeev */
 @Controller
 public class AdvancedSearchController {
 

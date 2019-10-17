@@ -4,6 +4,7 @@ import com.epam.dmrval.entity.Product;
 
 import java.util.List;
 
+/** Author - Damir_Valeev */
 public interface ProductDao {
   Product findByName(String name);
 

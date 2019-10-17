@@ -5,6 +5,7 @@ import com.epam.dmrval.entity.AuctionProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/** Author - Damir_Valeev */
 @Component
 public class AuctionProductInfoServiceImpl implements AuctionProductInfoService {
   @Autowired AuctionProductInfoDao auctionProductInfoDao;

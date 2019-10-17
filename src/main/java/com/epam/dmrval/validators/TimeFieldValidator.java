@@ -5,6 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+/** Author - Damir_Valeev */
 public class TimeFieldValidator implements ConstraintValidator<TimeValid, String> {
   @Override
   public void initialize(TimeValid constraintAnnotation) {}

@@ -1,6 +1,7 @@
 package com.epam.dmrval.service;
 
 import com.epam.dmrval.dao.ProductDao;
+import com.epam.dmrval.entity.Bidder;
 import com.epam.dmrval.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,8 @@ import java.util.List;
 /** Author - Damir_Valeev */
 @Component
 public class ProductServiceImpl implements ProductService {
-  @Autowired ProductDao productDao;
+
+  @Autowired private ProductDao productDao;
 
   @Override
   public Product findByName(String name) {
@@ -40,5 +42,15 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public void updateProduct(Product product) {
     productDao.saveProduct(product);
+  }
+
+  @Override
+  public void setBidder(Bidder bidder, int id_Product) {
+    productDao.setBidder(bidder, id_Product);
+  }
+
+  @Override
+  public double chechCurrentBiddePrice(int idProduct) {
+    return productDao.chechCurrentBiddePrice(idProduct);
   }
 }

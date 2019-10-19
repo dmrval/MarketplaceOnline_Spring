@@ -133,3 +133,10 @@ div.center {
     font-weight: bold;
 }
 
+.bidd_error{
+    color: red;
+    font-size: 1.7em;
+    text-align: center;
+    font-weight: bold;
+}
+

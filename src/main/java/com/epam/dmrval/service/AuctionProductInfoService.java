@@ -7,4 +7,5 @@ public interface AuctionProductInfoService {
   AuctionProductInfo getAuctionProductInfo(int id_info);
 
   AuctionProductInfo getAuctionByIdProduct(int idProduct);
+
 }

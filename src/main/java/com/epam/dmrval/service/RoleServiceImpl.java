@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /** Author - Damir_Valeev */
 @Component
 public class RoleServiceImpl implements RoleService {
-  @Autowired RoleDao roleDao;
+  @Autowired private RoleDao roleDao;
 
   @Override
   public Role findById(int id_role) {

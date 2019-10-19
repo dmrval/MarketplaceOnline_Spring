@@ -33,7 +33,7 @@ public class ProductBuilder {
         LocalDateTime timeLocal = LocalDateTime.parse(time);
         AuctionProductInfo auctionProductInfo =
             new AuctionProductInfo(startPrice, stepLevel, timeLocal, user, isBidding);
-        Product result = new Product(9999, nameProduct, description, auctionProductInfo);
+        Product result = new Product(nameProduct, description, auctionProductInfo);
         return result;
       } catch (DateTimeParseException d) {
         return null;

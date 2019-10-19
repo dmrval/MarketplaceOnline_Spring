@@ -1,7 +1,9 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.entity.*;
-import com.epam.dmrval.service.AuctionProductInfoService;
+import com.epam.dmrval.entity.Bidder;
+import com.epam.dmrval.entity.Product;
+import com.epam.dmrval.entity.ProductBuilder;
+import com.epam.dmrval.entity.User;
 import com.epam.dmrval.service.ProductService;
 import com.epam.dmrval.service.UserService;
 import com.epam.dmrval.service.helper.RequestHelper;
@@ -23,7 +25,6 @@ public class UsersController {
 
   @Autowired private UserService userService;
   @Autowired private ProductService productService;
-  @Autowired private AuctionProductInfoService auctionProductInfoService;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
@@ -80,11 +81,19 @@ public class UsersController {
   public String biddUp(
       @ModelAttribute("currentUser") User currentUser,
       @RequestParam("biddInfo") String biddInfo,
-      @RequestParam("biddLot") String biddLot) {
+      @RequestParam("biddLot") String biddLot,
+      Model model) {
     int idProduct = Integer.parseInt(biddInfo);
     double bidLot = Double.parseDouble(biddLot);
-    AuctionProductInfo nextBidder = auctionProductInfoService.getAuctionByIdProduct(idProduct);
-    nextBidder.setBidder(new Bidder(bidLot, currentUser));
-    return "redirect:/user/showAllItems";
+    double currentBiddPrice = productService.chechCurrentBiddePrice(idProduct);
+    if (bidLot <= currentBiddPrice) {
+      model.addAttribute("minimalBiddError", true);
+      model.addAttribute("allProducts", productService.getAllProducts());
+      return "showAllItems";
+    } else {
+      Bidder bidder = new Bidder(bidLot, currentUser);
+      productService.setBidder(bidder, idProduct);
+      return "redirect:/user/showAllItems";
+    }
   }
 }

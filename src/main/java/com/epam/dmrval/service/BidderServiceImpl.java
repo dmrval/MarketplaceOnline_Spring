@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /** Author - Damir_Valeev */
 @Component
 public class BidderServiceImpl implements BidderService {
-  @Autowired BidderDao bidderDao;
+  @Autowired private BidderDao bidderDao;
 
   @Override
   public Bidder findByBidderId(int id_bidder) {

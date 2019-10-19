@@ -1,5 +1,6 @@
 package com.epam.dmrval.dao;
 
+import com.epam.dmrval.entity.Bidder;
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.jdbcconnection.JdbcConnections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProductDaoImpl implements ProductDao {
 
   @Autowired private AuctionProductInfoDao auctionProductInfoDao;
+  @Autowired private BidderDao bidderDao;
 
   @Override
   public Product findByName(String name) {
@@ -100,6 +102,42 @@ public class ProductDaoImpl implements ProductDao {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void setBidder(Bidder bidder, int id_Product) {
+    long id_bidder = bidderDao.saveBidder(bidder);
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement prepareStatement =
+            connection.prepareStatement(
+                "UPDATE AUCTIONPRODUCTINFO SET BIDDER_FK=? WHERE INFOID=(SELECT products.auctioninfo_fk FROM Products "
+                    + "WHERE PRODUCTID=?) ")) {
+      prepareStatement.setLong(1, id_bidder);
+      prepareStatement.setInt(2, id_Product);
+      prepareStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public double chechCurrentBiddePrice(int idProduct) {
+    double currBiddPrice = 0;
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement prepareStatement =
+            connection.prepareStatement(
+                "SELECT BIDDEROFFER FROM BIDDER WHERE BIDDERID="
+                    + "(SELECT BIDDER_FK FROM AUCTIONPRODUCTINFO WHERE INFOID="
+                    + "(SELECT AUCTIONINFO_FK FROM PRODUCTS WHERE PRODUCTID=?))")) {
+      prepareStatement.setInt(1, idProduct);
+      ResultSet rs = prepareStatement.executeQuery();
+      while (rs.next()) {
+        currBiddPrice = rs.getDouble(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return currBiddPrice;
   }
 
   @Override

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
-  @Autowired UsersHelper usersHelper;
-
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String rootPath() {
     return login();

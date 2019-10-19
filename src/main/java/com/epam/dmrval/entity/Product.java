@@ -16,6 +16,12 @@ public class Product {
 
   public Product() {}
 
+  public Product(String nameProduct, String description, AuctionProductInfo info) {
+    this.nameProduct = nameProduct;
+    this.description = description;
+    this.info = info;
+  }
+
   public int getUid() {
     return uid;
   }

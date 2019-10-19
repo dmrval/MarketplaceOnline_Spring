@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +50,11 @@
 <div class="div_center">
     <h2>Dear ${currentUser.sex.respectCall} ${currentUser.fullname}. Here are all the products in the auction.</h2>
 </div>
+<c:if test="${minimalBiddError}">
+    <div class="bidd_error">
+        Your bidd price below available
+    </div>
+</c:if>
 <div id="test1">
     <table>
         <caption>All Items in auction</caption>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /** Author - Damir_Valeev */
 @Component
 public class AuctionProductInfoServiceImpl implements AuctionProductInfoService {
-  @Autowired AuctionProductInfoDao auctionProductInfoDao;
+  @Autowired private AuctionProductInfoDao auctionProductInfoDao;
 
   @Override
   public AuctionProductInfo getAuctionProductInfo(int id_info) {

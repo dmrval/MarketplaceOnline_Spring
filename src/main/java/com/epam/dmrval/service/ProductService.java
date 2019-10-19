@@ -1,5 +1,6 @@
 package com.epam.dmrval.service;
 
+import com.epam.dmrval.entity.Bidder;
 import com.epam.dmrval.entity.Product;
 
 import java.util.List;
@@ -17,4 +18,9 @@ public interface ProductService {
   void saveProduct(Product product);
 
   void updateProduct(Product product);
+
+  void setBidder(Bidder bidder, int id_Product);
+
+  double chechCurrentBiddePrice(int idProduct);
+
 }

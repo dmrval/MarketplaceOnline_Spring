@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /** Author - Damir_Valeev */
 @Component
@@ -49,7 +50,40 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
     return info;
   }
 
-  private boolean checkBidding(int statusNumber) {
+  @Override
+  public long saveAuctionProductInfo(AuctionProductInfo info) {
+    Long id_info = 0L;
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement prepareStatement =
+            connection.prepareStatement(
+                "INSERT INTO auctionproductinfo (startprice,steplevel,time,user_master_fk,isbidding) VALUES (?,?,?,?,?) ",
+                new String[] {"infoid"})) {
+      prepareStatement.setDouble(1, info.getStartPrice());
+      prepareStatement.setDouble(2, info.getStepLevel());
+      prepareStatement.setString(3, getLocaldatetime_toTimestampString(info.getTime()));
+      prepareStatement.setInt(4, userDao.getIdUserByLogin(info.getMaster().getLogin()));
+      prepareStatement.setInt(5, checkIsBiddingStatusNumber(info.isBidding()));
+      prepareStatement.execute();
+      ResultSet generatedKeys = prepareStatement.getGeneratedKeys();
+      if (null != generatedKeys && generatedKeys.next()) {
+        id_info = generatedKeys.getLong(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return id_info;
+  }
+
+  private int checkIsBiddingStatusNumber(boolean isBidding) {
+    return isBidding ? 1 : 0;
+  }
+
+  private String getLocaldatetime_toTimestampString(LocalDateTime localDateTime) {
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+    return localDateTime.format(dateTimeFormatter);
+  }
+
+  private boolean getBiddingByStatusNumber(int statusNumber) {
     return statusNumber == 1;
   }
 
@@ -64,7 +98,7 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
               bidderDao.findByBidderId(rs.getInt(3)),
               LocalDateTime.parse(timeString),
               userDao.getUserById(rs.getInt(5)),
-              checkBidding(rs.getInt(6)));
+              getBiddingByStatusNumber(rs.getInt(6)));
     }
     return info;
   }

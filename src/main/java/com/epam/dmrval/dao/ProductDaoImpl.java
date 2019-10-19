@@ -87,7 +87,20 @@ public class ProductDaoImpl implements ProductDao {
   }
 
   @Override
-  public void saveProduct(Product product) {}
+  public void saveProduct(Product product) {
+    long id_auction_info = auctionProductInfoDao.saveAuctionProductInfo(product.getInfo());
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement prepareStatement =
+            connection.prepareStatement(
+                "INSERT INTO PRODUCTS (NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK) VALUES (?,?,?)")) {
+      prepareStatement.setString(1, product.getNameProduct());
+      prepareStatement.setString(2, product.getDescription());
+      prepareStatement.setLong(3, id_auction_info);
+      prepareStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
   @Override
   public void updateProduct(Product product) {}

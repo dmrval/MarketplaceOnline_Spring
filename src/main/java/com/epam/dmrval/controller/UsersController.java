@@ -21,9 +21,9 @@ import java.util.Objects;
 @SessionAttributes(value = "currentUser")
 public class UsersController {
 
-  @Autowired UserService userService;
-  @Autowired ProductService productService;
-  @Autowired AuctionProductInfoService auctionProductInfoService;
+  @Autowired private UserService userService;
+  @Autowired private ProductService productService;
+  @Autowired private AuctionProductInfoService auctionProductInfoService;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
@@ -71,7 +71,7 @@ public class UsersController {
       return "sellProduct";
     }
     if (!Objects.isNull(newProduct)) {
-      currentUser.getProductList().add(newProduct);
+      productService.saveProduct(newProduct);
     }
     return "redirect:/user/showMyItems";
   }

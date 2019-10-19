@@ -1,6 +1,5 @@
 package com.epam.dmrval.service.userdetails;
 
-import com.epam.dmrval.entity.UsersHelper;
 import com.epam.dmrval.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

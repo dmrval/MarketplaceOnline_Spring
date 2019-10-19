@@ -12,6 +12,8 @@ public interface UserDao {
 
   User getUserById(int id);
 
+  int getIdUserByLogin(String user_login);
+
   void saveUser(User user);
 
   void updateUser(User user);

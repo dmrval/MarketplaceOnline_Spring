@@ -55,18 +55,34 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
+  public int getIdUserByLogin(String user_login) {
+    int result = 0;
+    try (Connection connection = JdbcConnections.connectToDataBase();
+        PreparedStatement ps =
+            connection.prepareStatement("SELECT USERID FROM USERS WHERE LOGIN=?")) {
+      ps.setString(1, user_login);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        result = rs.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+
+  @Override
   public void saveUser(User user) {
-    int genderId = sexDao.findBySexName(user.getSex().name());
-    System.out.println(user.getSex().name());
     try (Connection connection = JdbcConnections.connectToDataBase();
         PreparedStatement ps =
             connection.prepareStatement(
-                "INSERT INTO USERS (FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE) VALUES (?,?,?,?,?,1)")) {
+                "INSERT INTO USERS (FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE)"
+                    + " VALUES (?,?,?,?,(SELECT GENDERID FROM GENDER WHERE GENDERNAME=?),1)")) {
       ps.setString(1, user.getFullname());
       ps.setString(2, user.getAddress());
       ps.setString(3, user.getLogin());
       ps.setString(4, user.getPassword());
-      ps.setInt(5, genderId);
+      ps.setString(5, user.getSex().name());
       ps.execute();
     } catch (SQLException e) {
       e.printStackTrace();

@@ -7,4 +7,6 @@ public interface AuctionProductInfoDao {
   AuctionProductInfo getAuctionProductInfo(int id_info);
 
   AuctionProductInfo getAuctionByIdProduct(int idProduct);
+
+  long saveAuctionProductInfo(AuctionProductInfo info);
 }

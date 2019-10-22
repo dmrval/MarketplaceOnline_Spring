@@ -2,10 +2,10 @@ package com.epam.dmrval.dao;
 
 import com.epam.dmrval.entity.Bidder;
 import com.epam.dmrval.entity.Product;
-import com.epam.dmrval.jdbcconnection.JdbcConnections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,17 +19,13 @@ public class ProductDaoImpl implements ProductDao {
 
   @Autowired private AuctionProductInfoDao auctionProductInfoDao;
   @Autowired private BidderDao bidderDao;
-
-  @Override
-  public Product findByName(String name) {
-    return null;
-  }
+  @Autowired private DataSource dataSource;
 
   @Override
   public List<Product> getAllProducts() {
     List<Product> result = new ArrayList<>();
     try {
-      try (Connection connection = JdbcConnections.connectToDataBase();
+      try (Connection connection = dataSource.getConnection();
           PreparedStatement ps =
               connection.prepareStatement(
                   "SELECT PRODUCTID,NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM  PRODUCTS")) {
@@ -46,7 +42,7 @@ public class ProductDaoImpl implements ProductDao {
   public List<Product> getProductsByUserId(int usedId) {
     List<Product> result = new ArrayList<>();
     try {
-      try (Connection connection = JdbcConnections.connectToDataBase();
+      try (Connection connection = dataSource.getConnection();
           PreparedStatement ps =
               connection.prepareStatement(
                   "SELECT PRODUCTID,NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM PRODUCTS "
@@ -66,7 +62,7 @@ public class ProductDaoImpl implements ProductDao {
   public List<Product> getProductsByUserLogin(String login) {
     List<Product> result = new ArrayList<>();
     try {
-      try (Connection connection = JdbcConnections.connectToDataBase();
+      try (Connection connection = dataSource.getConnection();
           PreparedStatement ps =
               connection.prepareStatement(
                   "SELECT PRODUCTID, NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK FROM PRODUCTS "
@@ -84,14 +80,9 @@ public class ProductDaoImpl implements ProductDao {
   }
 
   @Override
-  public Product getProduct(int id) {
-    return null;
-  }
-
-  @Override
   public void saveProduct(Product product) {
     long id_auction_info = auctionProductInfoDao.saveAuctionProductInfo(product.getInfo());
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
                 "INSERT INTO PRODUCTS (NAMEPRODUCT,DESCRIPTION,AUCTIONINFO_FK) VALUES (?,?,?)")) {
@@ -107,7 +98,7 @@ public class ProductDaoImpl implements ProductDao {
   @Override
   public void setBidder(Bidder bidder, int id_Product) {
     long id_bidder = bidderDao.saveBidder(bidder);
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
                 "UPDATE AUCTIONPRODUCTINFO SET BIDDER_FK=? WHERE INFOID=(SELECT products.auctioninfo_fk FROM Products "
@@ -123,7 +114,7 @@ public class ProductDaoImpl implements ProductDao {
   @Override
   public double chechCurrentBiddePrice(int idProduct) {
     double currBiddPrice = 0;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
                 "SELECT BIDDEROFFER FROM BIDDER WHERE BIDDERID="
@@ -141,7 +132,18 @@ public class ProductDaoImpl implements ProductDao {
   }
 
   @Override
-  public void updateProduct(Product product) {}
+  public void transferProduct(int idProduct, int idNewUser) {
+    try (Connection connection = dataSource.getConnection();
+        PreparedStatement prepareStatement =
+            connection.prepareStatement(
+                "UPDATE AUCTIONPRODUCTINFO SET USER_MASTER_FK=?, BIDDER_FK=NULL WHERE INFOID = (SELECT AUCTIONINFO_FK FROM PRODUCTS WHERE PRODUCTID = ?)")) {
+      prepareStatement.setInt(1, idNewUser);
+      prepareStatement.setInt(2, idProduct);
+      prepareStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
   private void buildProductsListOfResultSet(ResultSet rs, List<Product> result)
       throws SQLException {

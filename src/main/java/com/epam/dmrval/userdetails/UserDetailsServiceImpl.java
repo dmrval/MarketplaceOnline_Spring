@@ -1,4 +1,4 @@
-package com.epam.dmrval.service.userdetails;
+package com.epam.dmrval.userdetails;
 
 import com.epam.dmrval.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

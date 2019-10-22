@@ -25,8 +25,6 @@ public class RegistrationController {
       model.addAttribute("passNotMatch", 1);
       return registration();
     }
-    System.out.println(user.getLogin());
-    System.out.println(user.getSex());
     userService.saveUser(user);
     return "login";
   }

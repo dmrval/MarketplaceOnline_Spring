@@ -1,7 +1,6 @@
 package com.epam.dmrval.dao;
 
 import com.epam.dmrval.entity.AuctionProductInfo;
-import com.epam.dmrval.entity.Bidder;
 
 /** Author - Damir_Valeev */
 public interface AuctionProductInfoDao {
@@ -10,5 +9,4 @@ public interface AuctionProductInfoDao {
   AuctionProductInfo getAuctionByIdProduct(int idProduct);
 
   long saveAuctionProductInfo(AuctionProductInfo info);
-
 }

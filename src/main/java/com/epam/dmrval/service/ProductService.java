@@ -7,11 +7,8 @@ import java.util.List;
 
 /** Author - Damir_Valeev */
 public interface ProductService {
-  Product findByName(String name);
 
   List<Product> getAllProducts();
-
-  Product getProduct(int id);
 
   List<Product> getProductsByUserLogin(String login);
 
@@ -22,5 +19,8 @@ public interface ProductService {
   void setBidder(Bidder bidder, int id_Product);
 
   double chechCurrentBiddePrice(int idProduct);
+
+  void transferProduct(int idProduct, int idNewUser);
+
 
 }

@@ -4,9 +4,11 @@ import com.epam.dmrval.entity.Bidder;
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductBuilder;
 import com.epam.dmrval.entity.User;
+import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.processbase.GlobalAttribute;
+import com.epam.dmrval.processbase.TimerTaskOfAuction;
 import com.epam.dmrval.service.ProductService;
 import com.epam.dmrval.service.UserService;
-import com.epam.dmrval.service.helper.RequestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +22,13 @@ import java.util.Objects;
 /** Author - Damir_Valeev */
 @Controller
 @RequestMapping("/user")
-@SessionAttributes(value = "currentUser")
+@SessionAttributes(value = {"currentUser"})
 public class UsersController {
 
   @Autowired private UserService userService;
   @Autowired private ProductService productService;
+  @Autowired private TimerTaskOfAuction timerTaskOfAuction;
+  @Autowired private GlobalAttribute globalAttribute;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
@@ -38,7 +42,8 @@ public class UsersController {
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", productService.getAllProducts());
+    model.addAttribute(
+        "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "showAllItems";
   }
 
@@ -48,7 +53,10 @@ public class UsersController {
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
     RequestHelper.getSearchAllItemsParam(
-        model, selecter, searchText, productService.getAllProducts());
+        model,
+        selecter,
+        searchText,
+        RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "showAllItems";
   }
 
@@ -73,6 +81,8 @@ public class UsersController {
     }
     if (!Objects.isNull(newProduct)) {
       productService.saveProduct(newProduct);
+//      timerTaskOfAuction.getProductList().add(newProduct);
+      globalAttribute.refreshAllProducts();
     }
     return "redirect:/user/showMyItems";
   }
@@ -80,19 +90,19 @@ public class UsersController {
   @RequestMapping(value = "/biddUp", method = RequestMethod.POST)
   public String biddUp(
       @ModelAttribute("currentUser") User currentUser,
-      @RequestParam("biddInfo") String biddInfo,
-      @RequestParam("biddLot") String biddLot,
+      @RequestParam("biddInfo") int biddInfo,
+      @RequestParam("biddLot") double biddLot,
       Model model) {
-    int idProduct = Integer.parseInt(biddInfo);
-    double bidLot = Double.parseDouble(biddLot);
-    double currentBiddPrice = productService.chechCurrentBiddePrice(idProduct);
-    if (bidLot <= currentBiddPrice) {
+    double currentBiddPrice = productService.chechCurrentBiddePrice(biddInfo);
+    if (biddLot <= currentBiddPrice) {
       model.addAttribute("minimalBiddError", true);
-      model.addAttribute("allProducts", productService.getAllProducts());
+      model.addAttribute(
+          "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
       return "showAllItems";
     } else {
-      Bidder bidder = new Bidder(bidLot, currentUser);
-      productService.setBidder(bidder, idProduct);
+      Bidder bidder = new Bidder(biddLot, currentUser);
+      productService.setBidder(bidder, biddInfo);
+      globalAttribute.refreshAllProducts();
       return "redirect:/user/showAllItems";
     }
   }

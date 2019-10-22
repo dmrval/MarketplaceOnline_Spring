@@ -22,7 +22,6 @@ public class ProductSearcher {
     try {
       return LocalDateTime.parse(expireDate);
     } catch (DateTimeParseException d) {
-      System.out.println("FAIL");
       return LocalDateTime.now();
     }
   }

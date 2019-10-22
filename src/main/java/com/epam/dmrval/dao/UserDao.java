@@ -8,13 +8,10 @@ import java.util.List;
 public interface UserDao {
   User findByLogin(String login);
 
-  List<User> getAllUsers();
-
   User getUserById(int id);
 
   int getIdUserByLogin(String user_login);
 
   void saveUser(User user);
 
-  void updateUser(User user);
 }

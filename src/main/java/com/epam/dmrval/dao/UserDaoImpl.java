@@ -1,10 +1,10 @@
 package com.epam.dmrval.dao;
 
 import com.epam.dmrval.entity.User;
-import com.epam.dmrval.jdbcconnection.JdbcConnections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,13 +14,15 @@ import java.util.List;
 /** Author - Damir_Valeev */
 @Component
 public class UserDaoImpl implements UserDao {
+
   @Autowired private RoleDao roleDao;
   @Autowired private SexDao sexDao;
+  @Autowired private DataSource dataSource;
 
   @Override
   public User findByLogin(String login) {
     User user = null;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement(
                 "SELECT FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE FROM USERS WHERE LOGIN=?")) {
@@ -34,14 +36,9 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public List<User> getAllUsers() {
-    return null;
-  }
-
-  @Override
   public User getUserById(int id) {
     User user = null;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement(
                 "SELECT FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE FROM USERS WHERE USERID=?")) {
@@ -57,7 +54,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public int getIdUserByLogin(String user_login) {
     int result = 0;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement("SELECT USERID FROM USERS WHERE LOGIN=?")) {
       ps.setString(1, user_login);
@@ -73,7 +70,7 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public void saveUser(User user) {
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement(
                 "INSERT INTO USERS (FULLNAME,ADDRESS,LOGIN,PASSWORD,GENDER,ROLE)"
@@ -88,9 +85,6 @@ public class UserDaoImpl implements UserDao {
       e.printStackTrace();
     }
   }
-
-  @Override
-  public void updateUser(User user) {}
 
   private User buildUserOfResultSet(ResultSet rs) throws SQLException {
     User user = null;

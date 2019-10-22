@@ -1,10 +1,10 @@
 package com.epam.dmrval.dao;
 
 import com.epam.dmrval.entity.AuctionProductInfo;
-import com.epam.dmrval.jdbcconnection.JdbcConnections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,15 +18,16 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
 
   @Autowired private BidderDao bidderDao;
   @Autowired private UserDao userDao;
+  @Autowired private DataSource dataSource;
 
   @Override
   public AuctionProductInfo getAuctionProductInfo(int id_info) {
     AuctionProductInfo info = null;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement(
                 "SELECT STARTPRICE,STEPLEVEL,BIDDER_FK,TIME,USER_MASTER_FK,ISBIDDING FROM AUCTIONPRODUCTINFO WHERE INFOID=?")) {
-      ResultSet rs = JdbcConnections.insertPreparedStatement(ps, id_info);
+      ResultSet rs = insertPreparedStatement(ps, id_info);
       info = buildAuctionProductInfoOfResultSet(rs);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -37,12 +38,12 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
   @Override
   public AuctionProductInfo getAuctionByIdProduct(int idProduct) {
     AuctionProductInfo info = null;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement ps =
             connection.prepareStatement(
                 "SELECT STARTPRICE,STEPLEVEL,BIDDER_FK,TIME,USER_MASTER_FK,ISBIDDING FROM PRODUCTS "
                     + "WHERE  = (SELECT products.auctioninfo_fk FROM Products WHERE productid = ?)")) {
-      ResultSet rs = JdbcConnections.insertPreparedStatement(ps, idProduct);
+      ResultSet rs = insertPreparedStatement(ps, idProduct);
       info = buildAuctionProductInfoOfResultSet(rs);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -53,7 +54,7 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
   @Override
   public long saveAuctionProductInfo(AuctionProductInfo info) {
     Long id_info = 0L;
-    try (Connection connection = JdbcConnections.connectToDataBase();
+    try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
                 "INSERT INTO auctionproductinfo (startprice,steplevel,time,user_master_fk,isbidding) VALUES (?,?,?,?,?) ",
@@ -101,5 +102,10 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
               getBiddingByStatusNumber(rs.getInt(6)));
     }
     return info;
+  }
+
+  private ResultSet insertPreparedStatement(PreparedStatement ps, int id) throws SQLException {
+    ps.setInt(1, id);
+    return ps.executeQuery();
   }
 }

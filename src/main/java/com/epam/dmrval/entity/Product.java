@@ -1,5 +1,7 @@
 package com.epam.dmrval.entity;
 
+import java.time.LocalDateTime;
+
 /** Author - Damir_Valeev Created on 9/12/2019 */
 public class Product {
   private int uid;
@@ -52,5 +54,9 @@ public class Product {
 
   public void setInfo(AuctionProductInfo info) {
     this.info = info;
+  }
+
+  public LocalDateTime getLocalDateTimeOfProduct() {
+    return info.getTime();
   }
 }

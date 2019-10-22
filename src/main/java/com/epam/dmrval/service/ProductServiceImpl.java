@@ -15,18 +15,8 @@ public class ProductServiceImpl implements ProductService {
   @Autowired private ProductDao productDao;
 
   @Override
-  public Product findByName(String name) {
-    return productDao.findByName(name);
-  }
-
-  @Override
   public List<Product> getAllProducts() {
     return productDao.getAllProducts();
-  }
-
-  @Override
-  public Product getProduct(int id) {
-    return productDao.getProduct(id);
   }
 
   @Override
@@ -52,5 +42,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public double chechCurrentBiddePrice(int idProduct) {
     return productDao.chechCurrentBiddePrice(idProduct);
+  }
+
+  @Override
+  public void transferProduct(int idProduct, int idNewUser) {
+    productDao.transferProduct(idProduct,idNewUser);
   }
 }

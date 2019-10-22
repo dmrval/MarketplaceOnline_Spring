@@ -73,6 +73,7 @@ public class User implements Serializable {
     this.password = password;
   }
 
+
   public Sex getSex() {
     return sex;
   }

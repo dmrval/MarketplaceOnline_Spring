@@ -2,8 +2,8 @@ package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductSearcher;
-import com.epam.dmrval.service.ProductService;
-import com.epam.dmrval.service.helper.RequestHelper;
+import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.processbase.GlobalAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class AdvancedSearchController {
 
-  @Autowired private ProductService productService;
+  @Autowired GlobalAttribute globalAttribute;
 
   @RequestMapping(value = "/advancedSearch", method = RequestMethod.GET)
   public String advancedSearch() {
@@ -33,7 +33,8 @@ public class AdvancedSearchController {
       Principal principal,
       @Valid @ModelAttribute("productSearcher") ProductSearcher productSearcher,
       BindingResult bindingResult) {
-    List<Product> allProducts = productService.getAllProducts();
+    List<Product> allProducts =
+        RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts());
     List<Product> resultList = RequestHelper.getAdvancedSearch(allProducts, productSearcher);
     if (bindingResult.hasErrors()) {
       return "advancedSearch";
@@ -49,15 +50,6 @@ public class AdvancedSearchController {
   @RequestMapping(value = "/clearField", method = RequestMethod.GET)
   public String clearField() {
     return "redirect:/advancedSearch";
-  }
-
-  private String checkUser(Principal principal, List<Product> resultList, Model model) {
-    model.addAttribute("allProducts", resultList);
-    if (principal != null) {
-      return "showAllItems";
-    } else {
-      return "guestPage";
-    }
   }
 
   @ModelAttribute("productSearcher")

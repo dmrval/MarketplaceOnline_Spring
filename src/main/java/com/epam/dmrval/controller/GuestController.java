@@ -1,7 +1,8 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.service.ProductService;
-import com.epam.dmrval.service.helper.RequestHelper;
+import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.processbase.GlobalAttribute;
+import com.epam.dmrval.processbase.TimerTaskOfAuction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/guest")
 public class GuestController {
 
-  @Autowired private ProductService productService;
+  @Autowired private TimerTaskOfAuction timerTaskOfAuction;
+  @Autowired GlobalAttribute globalAttribute;
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", productService.getAllProducts());
+    timerTaskOfAuction.transferGoods();
+    model.addAttribute(
+        "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "guestPage";
   }
 
@@ -27,8 +31,12 @@ public class GuestController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
+    timerTaskOfAuction.transferGoods();
     RequestHelper.getSearchAllItemsParam(
-        model, selecter, searchText, productService.getAllProducts());
+        model,
+        selecter,
+        searchText,
+        RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "guestPage";
   }
 }

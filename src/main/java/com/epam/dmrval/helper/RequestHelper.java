@@ -1,9 +1,11 @@
-package com.epam.dmrval.service.helper;
+package com.epam.dmrval.helper;
 
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductSearcher;
+import com.epam.dmrval.entity.User;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -64,6 +66,19 @@ public class RequestHelper {
         }
     }
     return result;
+  }
+
+  public static List<Product> getProductsThatYouCanBuy(List<Product> currentProducts) {
+    return currentProducts.stream()
+        .filter(product -> product.getInfo().getTime().isAfter(LocalDateTime.now()))
+        .collect(Collectors.toList());
+  }
+
+  public static List<Product> getCurrentUserProduct(
+      List<Product> currentProducts, User currentUser) {
+    return currentProducts.stream()
+        .filter(product -> product.getInfo().getMaster().getLogin().equals(currentUser.getLogin()))
+        .collect(Collectors.toList());
   }
 
   private static boolean inputCorrect(String s) {

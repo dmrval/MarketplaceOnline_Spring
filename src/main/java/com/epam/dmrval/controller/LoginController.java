@@ -1,24 +1,25 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.entity.UsersHelper;
+import com.epam.dmrval.processbase.TimerTaskOfAuction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /** Author - Damir_Valeev Created on 9/30/2019 */
-@Controller
+@Controller("allProducts")
 public class LoginController {
 
-  @Autowired UsersHelper usersHelper;
+  @Autowired private TimerTaskOfAuction timerTaskOfAuction;
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String rootPath() {
-    return login();
+    return "redirect:/login";
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login() {
+    timerTaskOfAuction.transferGoods();
     return "login";
   }
 

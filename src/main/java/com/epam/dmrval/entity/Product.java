@@ -1,6 +1,6 @@
 package com.epam.dmrval.entity;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 /** Author - Damir_Valeev Created on 9/12/2019 */
 public class Product {
@@ -17,6 +17,12 @@ public class Product {
   }
 
   public Product() {}
+
+  public Product(String nameProduct, String description, AuctionProductInfo info) {
+    this.nameProduct = nameProduct;
+    this.description = description;
+    this.info = info;
+  }
 
   public int getUid() {
     return uid;
@@ -48,5 +54,9 @@ public class Product {
 
   public void setInfo(AuctionProductInfo info) {
     this.info = info;
+  }
+
+  public LocalDateTime getLocalDateTimeOfProduct() {
+    return info.getTime();
   }
 }

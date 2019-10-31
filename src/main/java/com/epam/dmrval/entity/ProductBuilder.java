@@ -7,26 +7,22 @@ import com.epam.dmrval.validators.TimeValid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+/** Author - Damir_Valeev */
 public class ProductBuilder {
 
   private int uid;
 
-  @NotNullStringValue
-  private String nameProduct;
+  @NotNullStringValue private String nameProduct;
 
-  @NotNullStringValue
-  private String description;
+  @NotNullStringValue private String description;
 
-  @MinPrice
-  private double startPrice;
+  @MinPrice private double startPrice;
 
-  @MinPrice
-  private double stepLevel;
+  @MinPrice private double stepLevel;
 
   private Bidder bidder;
 
-  @TimeValid
-  private String time;
+  @TimeValid private String time;
 
   private User master;
   private boolean isBidding;
@@ -37,7 +33,7 @@ public class ProductBuilder {
         LocalDateTime timeLocal = LocalDateTime.parse(time);
         AuctionProductInfo auctionProductInfo =
             new AuctionProductInfo(startPrice, stepLevel, timeLocal, user, isBidding);
-        Product result = new Product(9999, nameProduct, description, auctionProductInfo);
+        Product result = new Product(nameProduct, description, auctionProductInfo);
         return result;
       } catch (DateTimeParseException d) {
         return null;

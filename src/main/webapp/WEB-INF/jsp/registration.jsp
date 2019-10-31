@@ -10,14 +10,19 @@
     <style>
         <%@ include file="/WEB-INF/styles/styles.css" %>
     </style>
+    <script type="text/javascript">
+        function redirect() {
+            window.location = "/signUp"
+        }
+    </script>
 </head>
 
 <body>
 <%--@elvariable id="user" type="com.epam.dmrval.entity.User"--%>
-
-
 <c:if test="${passNotMatch==1}">
-    The entered passwords do not match
+    <div class="error">
+        The entered passwords do not match
+    </div>
 </c:if>
 <form:form name="reg" modelAttribute="user" action="/registration" method="post">
     <fieldset class="fieldcss">
@@ -30,6 +35,13 @@
         <div class="reg">
             <form:label path="address">Billing address:</form:label>
             <form:input path="address" type="text" id="address" name="address" value=""/>
+        </div>
+        <br>
+        <div class="reg">
+            <form:label path="sex">What to call you:</form:label>
+            <form:select path="sex" id="user_sex" for="user_sex">
+                <form:options items="${Sex.values()}"/>
+            </form:select>
         </div>
         <br>
         <hr>
@@ -53,12 +65,9 @@
         <br>
         <div>
             <input class="registration_buttons" name="submit" type="submit" value="Registration"/>
-            <button class="registration_buttons" name="submit" type="submit">Reset</button>
+            <input type="button" onclick="redirect()" value="Reset">
         </div>
-
     </fieldset>
 </form:form>
-
-
 </body>
 </html>

@@ -1,7 +1,14 @@
 package com.epam.dmrval.controller;
 
-import com.epam.dmrval.entity.*;
-import com.epam.dmrval.service.RequestHelper;
+import com.epam.dmrval.entity.Bidder;
+import com.epam.dmrval.entity.Product;
+import com.epam.dmrval.entity.ProductBuilder;
+import com.epam.dmrval.entity.User;
+import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.processbase.GlobalAttribute;
+import com.epam.dmrval.processbase.TimerTaskOfAuction;
+import com.epam.dmrval.service.ProductService;
+import com.epam.dmrval.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +19,20 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Objects;
 
+/** Author - Damir_Valeev */
 @Controller
 @RequestMapping("/user")
-@SessionAttributes(value = "currentUser")
+@SessionAttributes(value = {"currentUser"})
 public class UsersController {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired private UserService userService;
+  @Autowired private ProductService productService;
+  @Autowired private TimerTaskOfAuction timerTaskOfAuction;
+  @Autowired private GlobalAttribute globalAttribute;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
-    return usersHelper.getUserByLogin(principal.getName());
+    return userService.findByLogin(principal.getName());
   }
 
   @ModelAttribute("buildProduct")
@@ -31,7 +42,8 @@ public class UsersController {
 
   @RequestMapping(value = "/showAllItems", method = RequestMethod.GET)
   public String showItems(Model model) {
-    model.addAttribute("allProducts", usersHelper.getAllProducts());
+    model.addAttribute(
+        "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "showAllItems";
   }
 
@@ -40,7 +52,11 @@ public class UsersController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText) {
-    RequestHelper.getSearchAllItemsParam(model, selecter, searchText, usersHelper.getAllProducts());
+    RequestHelper.getSearchAllItemsParam(
+        model,
+        selecter,
+        searchText,
+        RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
     return "showAllItems";
   }
 
@@ -64,7 +80,9 @@ public class UsersController {
       return "sellProduct";
     }
     if (!Objects.isNull(newProduct)) {
-      currentUser.getProductList().add(newProduct);
+      productService.saveProduct(newProduct);
+//      timerTaskOfAuction.getProductList().add(newProduct);
+      globalAttribute.refreshAllProducts();
     }
     return "redirect:/user/showMyItems";
   }
@@ -72,12 +90,20 @@ public class UsersController {
   @RequestMapping(value = "/biddUp", method = RequestMethod.POST)
   public String biddUp(
       @ModelAttribute("currentUser") User currentUser,
-      @RequestParam("biddInfo") String biddInfo,
-      @RequestParam("biddLot") String biddLot) {
-    int idProduct = Integer.parseInt(biddInfo);
-    double bidLot = Double.parseDouble(biddLot);
-    AuctionProductInfo nextBidder = usersHelper.getAuctionByIdProduct(idProduct);
-    nextBidder.setBidder(new Bidder(bidLot, currentUser));
-    return "redirect:/user/showAllItems";
+      @RequestParam("biddInfo") int biddInfo,
+      @RequestParam("biddLot") double biddLot,
+      Model model) {
+    double currentBiddPrice = productService.chechCurrentBiddePrice(biddInfo);
+    if (biddLot <= currentBiddPrice) {
+      model.addAttribute("minimalBiddError", true);
+      model.addAttribute(
+          "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
+      return "showAllItems";
+    } else {
+      Bidder bidder = new Bidder(biddLot, currentUser);
+      productService.setBidder(bidder, biddInfo);
+      globalAttribute.refreshAllProducts();
+      return "redirect:/user/showAllItems";
+    }
   }
 }

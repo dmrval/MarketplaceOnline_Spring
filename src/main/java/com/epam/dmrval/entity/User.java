@@ -2,21 +2,21 @@ package com.epam.dmrval.entity;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Author - Damir_Valeev */
 @Component
-public class User {
+public class User implements Serializable {
   private String fullname;
   private String address;
   private String login;
   private String password;
   private Sex sex;
-  private List<Product> productList;
   private Role userRole;
 
   public User(String fullname, String address, String login, Sex sex) {
-    productList = new ArrayList<>();
     this.fullname = fullname;
     this.address = address;
     this.login = login;
@@ -25,7 +25,6 @@ public class User {
 
   public User(
       String fullname, String address, String login, String password, Sex sex, Role userRole) {
-    productList = new ArrayList<>();
     this.fullname = fullname;
     this.address = address;
     this.login = login;
@@ -36,7 +35,6 @@ public class User {
 
   public User() {
     this.userRole = Role.USER;
-    productList = new ArrayList<>();
   }
 
   public User(String fullname) {
@@ -75,13 +73,6 @@ public class User {
     this.password = password;
   }
 
-  public List<Product> getProductList() {
-    return productList;
-  }
-
-  public void setProductList(List<Product> productList) {
-    this.productList = productList;
-  }
 
   public Sex getSex() {
     return sex;

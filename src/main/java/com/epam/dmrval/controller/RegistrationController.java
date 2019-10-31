@@ -1,7 +1,7 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.User;
-import com.epam.dmrval.entity.UsersHelper;
+import com.epam.dmrval.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/** Author - Damir_Valeev */
 @Controller
 public class RegistrationController {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired UserService userService;
 
   @RequestMapping(value = "/registration", method = RequestMethod.POST)
   public String registration(
@@ -24,7 +25,7 @@ public class RegistrationController {
       model.addAttribute("passNotMatch", 1);
       return registration();
     }
-    usersHelper.addUser(user);
+    userService.saveUser(user);
     return "login";
   }
 

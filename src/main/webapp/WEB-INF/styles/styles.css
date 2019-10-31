@@ -55,7 +55,6 @@ div.reg label {
     height: 15px;
 }
 
-
 .registration_buttons {
     margin-left: 45px;
 }
@@ -115,6 +114,7 @@ div.center {
 .bigButton {
     padding: 10px 20px;
 }
+
 .shortinput {
     width: 68px;
 }
@@ -122,8 +122,21 @@ div.center {
 .clearSearch {
     margin-left: 30px;
 }
-.fieldcss{
+
+.fieldcss {
     width: 35%
 }
-.error { color: red; font-size: 0.9em; font-weight: bold; }
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.bidd_error{
+    color: red;
+    font-size: 1.7em;
+    text-align: center;
+    font-weight: bold;
+}
 

@@ -3,6 +3,7 @@ package com.epam.dmrval.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/** Author - Damir_Valeev */
 public class ProductBuilderMinPriceValidator implements ConstraintValidator<MinPrice, Double> {
   @Override
   public void initialize(MinPrice constraintAnnotation) {}

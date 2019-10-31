@@ -4,8 +4,8 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Objects;
 
+/** Author - Damir_Valeev */
 public class StringNotNullValidator implements ConstraintValidator<NotNullStringValue, String> {
   @Override
   public void initialize(NotNullStringValue constraintAnnotation) {}

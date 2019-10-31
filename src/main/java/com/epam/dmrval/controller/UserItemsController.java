@@ -1,27 +1,26 @@
 package com.epam.dmrval.controller;
 
 import com.epam.dmrval.entity.User;
-import com.epam.dmrval.entity.UsersHelper;
-import com.epam.dmrval.service.RequestHelper;
+import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.processbase.GlobalAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
+/** Author - Damir_Valeev */
 @Controller
 @RequestMapping("/user/showMyItems")
+@SessionAttributes(value = {"currentUser"})
 public class UserItemsController {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired private GlobalAttribute globalAttribute;
 
   @RequestMapping(method = RequestMethod.GET)
-  public String showMyItems(Model model, Principal principal) {
+  public String showMyItems(Model model, @ModelAttribute("currentUser") User currentUser) {
     model.addAttribute(
-        "userItems", usersHelper.getUserByLogin(principal.getName()).getProductList());
+        "userItems",
+        RequestHelper.getCurrentUserProduct(globalAttribute.getAllProducts(), currentUser));
     return "showMyItems";
   }
 
@@ -30,9 +29,12 @@ public class UserItemsController {
       Model model,
       @RequestParam("selecter") String selecter,
       @RequestParam("searchText") String searchText,
-      Principal principal) {
-    User currentUser = usersHelper.getUserByLogin(principal.getName());
-    RequestHelper.getSearchMyItemsParam(model, selecter, searchText, currentUser.getProductList());
+      @ModelAttribute("currentUser") User currentUser) {
+    RequestHelper.getSearchMyItemsParam(
+        model,
+        selecter,
+        searchText,
+        RequestHelper.getCurrentUserProduct(globalAttribute.getAllProducts(), currentUser));
     return "showMyItems";
   }
 }

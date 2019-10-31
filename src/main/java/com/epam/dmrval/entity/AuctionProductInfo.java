@@ -12,10 +12,6 @@ public class AuctionProductInfo {
   private User master;
   private boolean isBidding;
 
-  {
-    bidder = new Bidder(0, new User());
-  }
-
   AuctionProductInfo(double startPrice, double stepLevel, LocalDateTime time, User master) {
     this.startPrice = startPrice;
     this.stepLevel = stepLevel;
@@ -35,12 +31,12 @@ public class AuctionProductInfo {
   }
 
   public AuctionProductInfo(
-          double startPrice,
-          double stepLevel,
-          Bidder bidder,
-          LocalDateTime time,
-          User master,
-          boolean isBidding) {
+      double startPrice,
+      double stepLevel,
+      Bidder bidder,
+      LocalDateTime time,
+      User master,
+      boolean isBidding) {
     this.startPrice = startPrice;
     this.stepLevel = stepLevel;
     this.bidder = bidder;

@@ -1,6 +1,6 @@
-package com.epam.dmrval.service;
+package com.epam.dmrval.userdetails;
 
-import com.epam.dmrval.entity.UsersHelper;
+import com.epam.dmrval.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  @Autowired private UsersHelper usersHelper;
+  @Autowired private UserService userService;
 
   @Override
   public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-    return new UserDetailsImpl(usersHelper.getUserByLogin(login));
+    return new UserDetailsImpl(userService.findByLogin(login));
   }
 }

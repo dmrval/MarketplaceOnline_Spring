@@ -1,15 +1,36 @@
 package com.epam.dmrval.entity;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /** Author - Damir_Valeev Created on 9/19/2019 */
+//@Entity
+//@Table(name = "AUCTIONPRODUCTINFO")
 public class AuctionProductInfo {
+
+  @Id
+  @Column(name = "INFOID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+
+  @Column(name = "STARTPRICE")
   private double startPrice;
+
+  @Column(name = "steplevel")
   private double stepLevel;
+
+  @ManyToOne
+  @JoinColumn(name = "BIDDER_FK", referencedColumnName = "BIDDERID")
   private Bidder bidder;
+
+  @Column(name = "TIME")
   private LocalDateTime time;
+
+  @ManyToOne
+  @JoinColumn(name = "USER_MASTER_FK", referencedColumnName = "USERID")
   private User master;
+
   private boolean isBidding;
 
   AuctionProductInfo(double startPrice, double stepLevel, LocalDateTime time, User master) {
@@ -96,5 +117,13 @@ public class AuctionProductInfo {
   public String getLocalDateTime() {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     return this.time.format(dateTimeFormatter);
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 }

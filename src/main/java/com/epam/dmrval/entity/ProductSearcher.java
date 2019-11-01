@@ -18,6 +18,9 @@ public class ProductSearcher {
   private String expireDate;
   @SearchDigitValid private double bestOffer;
 
+  public ProductSearcher() {
+  }
+
   public LocalDateTime getLocalDateTimeProduct() {
     try {
       return LocalDateTime.parse(expireDate);

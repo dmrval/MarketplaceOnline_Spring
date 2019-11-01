@@ -1,14 +1,29 @@
 package com.epam.dmrval.entity;
 
+import javax.persistence.*;
+
 /** Author - Damir_Valeev Created on 9/19/2019 */
+//@Entity
+//@Table(name = "BIDDER")
 public class Bidder {
-  double bidderOffer;
-  User bidderUser;
+  @Id
+  @Column(name = "BIDDERID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+
+  @Column(name = "BIDDEROFFER")
+  private double bidderOffer;
+
+  @ManyToOne
+  @JoinColumn(name = "BIDDERUSER_FK", referencedColumnName = "USERID")
+  private User bidderUser;
 
   public Bidder(double bidderOffer, User bidderUser) {
     this.bidderOffer = bidderOffer;
     this.bidderUser = bidderUser;
   }
+
+  public Bidder() {}
 
   public double getBidderOffer() {
     return bidderOffer;

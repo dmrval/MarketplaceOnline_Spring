@@ -2,18 +2,38 @@ package com.epam.dmrval.entity;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Author - Damir_Valeev */
 @Component
+@Entity
+@Table(name = "USERS")
 public class User implements Serializable {
+
+  @Id
+  @Column(name = "USERID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+
+  @Column(name = "FULLNAME")
   private String fullname;
+
+  @Column(name = "ADDRESS")
   private String address;
+
+  @Column(name = "LOGIN")
   private String login;
+
+  @Column(name = "PASSWORD")
   private String password;
+
+  @Column(name = "GENDER")
+  @Convert(converter = SexAttributeConverter.class)
   private Sex sex;
+
+  @Column(name = "ROLE")
+  @Convert(converter = RoleAttributeConverter.class)
   private Role userRole;
 
   public User(String fullname, String address, String login, Sex sex) {
@@ -73,7 +93,6 @@ public class User implements Serializable {
     this.password = password;
   }
 
-
   public Sex getSex() {
     return sex;
   }
@@ -88,5 +107,13 @@ public class User implements Serializable {
 
   public void setUserRole(Role userRole) {
     this.userRole = userRole;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 }

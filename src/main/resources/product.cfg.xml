@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.epam.dmrval.entity.Product" table="Products">
+        <id name="uid" column="productid">
+            <generator class="identity"/>
+        </id>
+        <property name="nameProduct" column="NAMEPRODUCT" type="java.lang.String"/>
+        <property name="description" column="DESCRIPTION" type="java.lang.String"/>
+        <property name="info" column="AUCTIONINFO_FK" type="java.lang.Integer"/>
+
+    </class>
+</hibernate-mapping>

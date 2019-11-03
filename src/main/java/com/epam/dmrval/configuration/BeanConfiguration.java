@@ -32,7 +32,7 @@ public class BeanConfiguration {
   public DataSource getDataSource() {
     DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
     dataSourceBuilder.url("jdbc:oracle:thin:@localhost:1521:xe");
-    dataSourceBuilder.username("C##DMRVAL");
+    dataSourceBuilder.username("C##dmrval");
     dataSourceBuilder.password("Password1");
     return dataSourceBuilder.build();
   }

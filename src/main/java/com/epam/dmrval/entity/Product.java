@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /** Author - Damir_Valeev Created on 9/12/2019 */
-//@Entity
-//@Table(name = "PRODUCTS")
+@Entity
+@Table(name = "PRODUCTS")
 public class Product {
 
   @Id
@@ -19,9 +19,8 @@ public class Product {
   @Column(name = "DESCRIPTION")
   private String description;
 
-//  @ManyToOne
-//  @JoinColumn(name = "AUCTIONINFO_FK", referencedColumnName = "INFOID")
-  @Column(name = "AUCTIONINFO_FK")
+  @OneToOne
+  @JoinColumn(name = "AUCTIONINFO_FK", referencedColumnName = "INFOID")
   private AuctionProductInfo info;
 
   public Product(int uid, String nameProduct, String description, AuctionProductInfo info) {

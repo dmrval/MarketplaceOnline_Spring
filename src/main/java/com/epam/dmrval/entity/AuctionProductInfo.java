@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /** Author - Damir_Valeev Created on 9/19/2019 */
-//@Entity
-//@Table(name = "AUCTIONPRODUCTINFO")
+@Entity
+@Table(name = "AUCTIONPRODUCTINFO")
 public class AuctionProductInfo {
 
   @Id
   @Column(name = "INFOID")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   @Column(name = "STARTPRICE")
@@ -20,14 +20,14 @@ public class AuctionProductInfo {
   @Column(name = "steplevel")
   private double stepLevel;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "BIDDER_FK", referencedColumnName = "BIDDERID")
   private Bidder bidder;
 
   @Column(name = "TIME")
   private LocalDateTime time;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "USER_MASTER_FK", referencedColumnName = "USERID")
   private User master;
 

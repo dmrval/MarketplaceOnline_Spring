@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class User implements Serializable {
 
   @Id
-  @Column(name = "USERID")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "USERID", columnDefinition = "USERID")
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   @Column(name = "FULLNAME")
@@ -28,7 +28,7 @@ public class User implements Serializable {
   @Column(name = "PASSWORD")
   private String password;
 
-  @Column(name = "GENDER")
+  @Column(name = "GENDER", columnDefinition = "GENDER")
   @Convert(converter = SexAttributeConverter.class)
   private Sex sex;
 

@@ -12,8 +12,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 /** Author - Damir_Valeev */
-@Component
+//@Component
 public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
 
   @Autowired private BidderDao bidderDao;

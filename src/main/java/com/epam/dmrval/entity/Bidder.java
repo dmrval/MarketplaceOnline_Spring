@@ -14,8 +14,8 @@ public class Bidder {
   @Column(name = "BIDDEROFFER")
   private double bidderOffer;
 
-  @ManyToOne
-  @JoinColumn(name = "BIDDERUSER_FK", referencedColumnName = "USERID")
+  @OneToOne
+  @PrimaryKeyJoinColumn
   private User bidderUser;
 
   public Bidder(double bidderOffer, User bidderUser) {
@@ -47,5 +47,25 @@ public class Bidder {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Bidder)) return false;
+    Bidder bidder = (Bidder) o;
+    if (Double.compare(bidder.bidderOffer, bidderOffer) != 0) return false;
+    return bidderUser.equals(bidder.bidderUser);
+  }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = 0;
+    temp = Double.doubleToLongBits(bidderOffer);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + bidderUser.hashCode();
+    return result;
   }
 }

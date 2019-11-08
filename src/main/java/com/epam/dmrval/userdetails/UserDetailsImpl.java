@@ -1,6 +1,7 @@
 package com.epam.dmrval.userdetails;
 
 import com.epam.dmrval.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +17,8 @@ public class UserDetailsImpl implements UserDetails {
 
   private User user;
 
-  public UserDetailsImpl(User user) {
-    this.user = user;
+  public UserDetailsImpl(User users) {
+    this.user = users;
   }
 
   @Override

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /** Author - Damir_Valeev */
-@Component
+//@Component
 public class UserDaoImpl implements UserDao {
 
   @Autowired private RoleDao roleDao;

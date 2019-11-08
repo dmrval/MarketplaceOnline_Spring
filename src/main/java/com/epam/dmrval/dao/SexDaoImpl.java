@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /** Author - Damir_Valeev */
-@Component
+//@Component
 public class SexDaoImpl implements SexDao {
 
   @Autowired private DataSource dataSource;

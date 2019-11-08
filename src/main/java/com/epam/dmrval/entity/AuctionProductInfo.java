@@ -21,16 +21,17 @@ public class AuctionProductInfo {
   private double stepLevel;
 
   @OneToOne
-  @JoinColumn(name = "BIDDER_FK", referencedColumnName = "BIDDERID")
+  @PrimaryKeyJoinColumn
   private Bidder bidder;
 
   @Column(name = "TIME")
   private LocalDateTime time;
 
   @OneToOne
-  @JoinColumn(name = "USER_MASTER_FK", referencedColumnName = "USERID")
+  @PrimaryKeyJoinColumn
   private User master;
 
+  @Convert(converter = IsBiddingAttributeConverter.class)
   private boolean isBidding;
 
   AuctionProductInfo(double startPrice, double stepLevel, LocalDateTime time, User master) {

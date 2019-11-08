@@ -1,18 +1,18 @@
 package com.epam.dmrval.entity;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 /** Author - Damir_Valeev */
-@Component
+@Service
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
 
   @Id
-  @Column(name = "USERID", columnDefinition = "USERID")
+  @Column(name = "USERID")
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
@@ -116,4 +116,6 @@ public class User implements Serializable {
   public void setId(int id) {
     this.id = id;
   }
+
+
 }

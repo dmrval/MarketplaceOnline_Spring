@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /** Author - Damir_Valeev */
-@Component
+//@Component
 public class BidderDaoImpl implements BidderDao {
 
   @Autowired private UserDao userDao;

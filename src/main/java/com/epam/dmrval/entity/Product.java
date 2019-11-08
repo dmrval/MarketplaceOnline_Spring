@@ -20,7 +20,7 @@ public class Product {
   private String description;
 
   @OneToOne
-  @JoinColumn(name = "AUCTIONINFO_FK", referencedColumnName = "INFOID")
+  @PrimaryKeyJoinColumn
   private AuctionProductInfo info;
 
   public Product(int uid, String nameProduct, String description, AuctionProductInfo info) {

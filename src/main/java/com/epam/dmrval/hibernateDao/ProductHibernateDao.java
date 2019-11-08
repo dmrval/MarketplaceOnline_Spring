@@ -6,7 +6,7 @@ import com.epam.dmrval.entity.Product;
 import java.util.List;
 
 /** Author - Damir_Valeev */
-public interface ProductDao {
+public interface ProductHibernateDao {
 
   List<Product> getAllProducts();
 
@@ -21,5 +21,4 @@ public interface ProductDao {
   double chechCurrentBiddePrice(int idProduct);
 
   void transferProduct(int idProduct, int idNewUser);
-
 }

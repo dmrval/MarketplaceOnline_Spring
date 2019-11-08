@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Author - Damir_Valeev */
-@Component
+//@Component
 public class ProductDaoImpl implements ProductDao {
 
   @Autowired private AuctionProductInfoDao auctionProductInfoDao;
@@ -101,7 +101,8 @@ public class ProductDaoImpl implements ProductDao {
     try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
-                "UPDATE AUCTIONPRODUCTINFO SET BIDDER_FK=? WHERE INFOID=(SELECT products.auctioninfo_fk FROM Products "
+                "UPDATE AUCTIONPRODUCTINFO SET BIDDER_FK=? WHERE INFOID=" +
+                        "(SELECT products.auctioninfo_fk FROM Products "
                     + "WHERE PRODUCTID=?) ")) {
       prepareStatement.setLong(1, id_bidder);
       prepareStatement.setInt(2, id_Product);
@@ -136,7 +137,8 @@ public class ProductDaoImpl implements ProductDao {
     try (Connection connection = dataSource.getConnection();
         PreparedStatement prepareStatement =
             connection.prepareStatement(
-                "UPDATE AUCTIONPRODUCTINFO SET USER_MASTER_FK=?, BIDDER_FK=NULL WHERE INFOID = (SELECT AUCTIONINFO_FK FROM PRODUCTS WHERE PRODUCTID = ?)")) {
+                "UPDATE AUCTIONPRODUCTINFO SET USER_MASTER_FK=?, BIDDER_FK=NULL WHERE INFOID = " +
+                        "(SELECT AUCTIONINFO_FK FROM PRODUCTS WHERE PRODUCTID = ?)")) {
       prepareStatement.setInt(1, idNewUser);
       prepareStatement.setInt(2, idProduct);
       prepareStatement.execute();

@@ -24,6 +24,7 @@ public class RequestHelper {
       Model model, String selecter, String searchText, List<Product> userProductsList) {
     List<Product> result = switchSelecter(selecter, searchText, userProductsList);
     model.addAttribute("userItems", result);
+
   }
 
   private static List<Product> switchSelecter(

@@ -21,4 +21,10 @@ public interface ProductHibernateDao {
   double chechCurrentBiddePrice(int idProduct);
 
   void transferProduct(int idProduct, int idNewUser);
+
+  default void updateProduct(Product product) {}
+
+  default Product getProduct(int id) {
+    return new Product();
+  }
 }

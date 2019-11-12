@@ -27,8 +27,7 @@ public class ProductBuilder {
   private User master;
   private boolean isBidding;
 
-  public ProductBuilder() {
-  }
+  public ProductBuilder() {}
 
   public Product build(User user) {
     if (!time.isEmpty()) {

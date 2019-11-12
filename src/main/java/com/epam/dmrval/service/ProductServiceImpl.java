@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public void updateProduct(Product product) {
-    productHibernateDao.saveProduct(product);
+    productHibernateDao.updateProduct(product);
   }
 
   @Override
@@ -47,5 +47,10 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public void transferProduct(int idProduct, int idNewUser) {
     productHibernateDao.transferProduct(idProduct, idNewUser);
+  }
+
+  @Override
+  public Product getProduct(int id) {
+    return productHibernateDao.getProduct(id);
   }
 }

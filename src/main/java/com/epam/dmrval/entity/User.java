@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /** Author - Damir_Valeev */
 @Service
@@ -12,8 +13,8 @@ import java.io.Serializable;
 public class User implements Serializable {
 
   @Id
-  @Column(name = "USERID")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
+  @Column(name = "USERID", nullable = false)
   private int id;
 
   @Column(name = "FULLNAME")
@@ -116,6 +117,4 @@ public class User implements Serializable {
   public void setId(int id) {
     this.id = id;
   }
-
-
 }

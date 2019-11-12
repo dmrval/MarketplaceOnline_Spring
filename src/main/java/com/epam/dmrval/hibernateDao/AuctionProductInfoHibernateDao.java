@@ -9,4 +9,6 @@ public interface AuctionProductInfoHibernateDao {
   AuctionProductInfo getAuctionByIdProduct(int idProduct);
 
   long saveAuctionProductInfo(AuctionProductInfo info);
+
+  void updateAuctionProductInfo(AuctionProductInfo auctionProductInfo);
 }

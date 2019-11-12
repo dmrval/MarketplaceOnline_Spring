@@ -10,8 +10,8 @@ import java.time.format.DateTimeFormatter;
 public class AuctionProductInfo {
 
   @Id
-  @Column(name = "INFOID")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
+  @Column(name = "INFOID", nullable = false)
   private int id;
 
   @Column(name = "STARTPRICE")
@@ -20,15 +20,15 @@ public class AuctionProductInfo {
   @Column(name = "steplevel")
   private double stepLevel;
 
-  @OneToOne
-  @PrimaryKeyJoinColumn
+  @ManyToOne
+  @JoinColumn(name = "BIDDER_FK")
   private Bidder bidder;
 
   @Column(name = "TIME")
   private LocalDateTime time;
 
-  @OneToOne
-  @PrimaryKeyJoinColumn
+  @ManyToOne
+  @JoinColumn(name = "USER_MASTER_FK")
   private User master;
 
   @Convert(converter = IsBiddingAttributeConverter.class)

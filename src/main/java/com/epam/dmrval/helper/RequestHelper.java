@@ -3,6 +3,7 @@ package com.epam.dmrval.helper;
 import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductSearcher;
 import com.epam.dmrval.entity.User;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;

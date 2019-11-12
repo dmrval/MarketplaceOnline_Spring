@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 public class Product {
 
   @Id
-  @Column(name = "PRODUCTID")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "PRODUCTID", nullable = false)
   private int uid;
 
   @Column(name = "NAMEPRODUCT")
@@ -19,8 +19,8 @@ public class Product {
   @Column(name = "DESCRIPTION")
   private String description;
 
-  @OneToOne
-  @PrimaryKeyJoinColumn
+  @ManyToOne
+  @JoinColumn(name = "AUCTIONINFO_FK")
   private AuctionProductInfo info;
 
   public Product(int uid, String nameProduct, String description, AuctionProductInfo info) {

@@ -14,8 +14,8 @@ public class Bidder {
   @Column(name = "BIDDEROFFER")
   private double bidderOffer;
 
-  @OneToOne
-  @PrimaryKeyJoinColumn
+  @ManyToOne
+  @JoinColumn(name = "BIDDERUSER_FK")
   private User bidderUser;
 
   public Bidder(double bidderOffer, User bidderUser) {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.util.List;
 
 /** Author - Damir_Valeev */
@@ -43,9 +44,15 @@ public class UserHibernateDaoImp implements UserHibernateDao {
 
   @Override
   public int getIdUserByLogin(String user_login) {
-    return 0;
+    User result = findByLogin(user_login);
+    return result.getId();
   }
 
   @Override
-  public void saveUser(User user) {}
+  public void saveUser(User user) {
+    sessionFactory.getCurrentSession().beginTransaction();
+    Serializable result = sessionFactory.getCurrentSession().save(user);
+    sessionFactory.getCurrentSession().getTransaction().commit();
+    sessionFactory.getCurrentSession().close();
+  }
 }

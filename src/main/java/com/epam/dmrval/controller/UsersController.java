@@ -5,6 +5,7 @@ import com.epam.dmrval.entity.Product;
 import com.epam.dmrval.entity.ProductBuilder;
 import com.epam.dmrval.entity.User;
 import com.epam.dmrval.helper.RequestHelper;
+import com.epam.dmrval.hibernateDao.AuctionProductInfoHibernateDao;
 import com.epam.dmrval.processbase.GlobalAttribute;
 import com.epam.dmrval.processbase.TimerTaskOfAuction;
 import com.epam.dmrval.service.ProductService;
@@ -29,6 +30,7 @@ public class UsersController {
   @Autowired private ProductService productService;
   @Autowired private TimerTaskOfAuction timerTaskOfAuction;
   @Autowired private GlobalAttribute globalAttribute;
+  @Autowired private AuctionProductInfoHibernateDao auctionProductInfoHibernateDao;
 
   @ModelAttribute("currentUser")
   public User createUser(Principal principal) {
@@ -81,7 +83,7 @@ public class UsersController {
     }
     if (!Objects.isNull(newProduct)) {
       productService.saveProduct(newProduct);
-//      timerTaskOfAuction.getProductList().add(newProduct);
+      globalAttribute.getAllProducts().add(newProduct);
       globalAttribute.refreshAllProducts();
     }
     return "redirect:/user/showMyItems";
@@ -100,8 +102,13 @@ public class UsersController {
           "allProducts", RequestHelper.getProductsThatYouCanBuy(globalAttribute.getAllProducts()));
       return "showAllItems";
     } else {
-      Bidder bidder = new Bidder(biddLot, currentUser);
-      productService.setBidder(bidder, biddInfo);
+            Bidder bidder = new Bidder(biddLot, currentUser);
+      /** jdbc */
+      //      productService.setBidder(bidder, biddInfo);
+      /** Hibernate */
+      Product currentBidProduct = productService.getProduct(biddInfo);
+      currentBidProduct.getInfo().setBidder(bidder);
+      productService.updateProduct(currentBidProduct);
       globalAttribute.refreshAllProducts();
       return "redirect:/user/showAllItems";
     }

@@ -80,8 +80,8 @@ public class AuctionProductInfoDaoImpl implements AuctionProductInfoDao {
     return isBidding ? 1 : 0;
   }
 
-  private String getLocaldatetime_toTimestampString(LocalDateTime localDateTime) {
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+  public static String getLocaldatetime_toTimestampString(LocalDateTime localDateTime) {
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
     return localDateTime.format(dateTimeFormatter);
   }
 

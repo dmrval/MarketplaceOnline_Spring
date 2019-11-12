@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Author - Damir_Valeev */
@@ -29,19 +30,40 @@ public class ProductHibernateDaoImpl implements ProductHibernateDao {
 
   @Override
   public List<Product> getProductsByUserId(int usedId) {
-    return null;
+    List<Product> allProducts = getAllProducts();
+    List<Product> userProducts = new ArrayList<>();
+    for (Product tmp : allProducts) {
+      if (tmp.getInfo().getMaster().getId() == usedId) {
+        userProducts.add(tmp);
+      }
+    }
+    return userProducts;
   }
 
   @Override
   public List<Product> getProductsByUserLogin(String login) {
-    return null;
+    List<Product> allProducts = getAllProducts();
+    List<Product> userProducts = new ArrayList<>();
+    for (Product tmp : allProducts) {
+      if (tmp.getInfo().getMaster().getLogin().equals(login)) {
+        userProducts.add(tmp);
+      }
+    }
+    return userProducts;
   }
 
   @Override
-  public void saveProduct(Product product) {}
+  public void saveProduct(Product product) {
+    sessionFactory.getCurrentSession().beginTransaction();
+    sessionFactory.getCurrentSession().save(product.getInfo());
+    sessionFactory.getCurrentSession().save(product);
+    sessionFactory.getCurrentSession().getTransaction().commit();
+    sessionFactory.getCurrentSession().close();
+  }
 
   @Override
-  public void setBidder(Bidder bidder, int id_Product) {}
+  public void setBidder(Bidder bidder, int id_Product) {
+  }
 
   @Override
   public double chechCurrentBiddePrice(int idProduct) {
@@ -50,4 +72,23 @@ public class ProductHibernateDaoImpl implements ProductHibernateDao {
 
   @Override
   public void transferProduct(int idProduct, int idNewUser) {}
+
+  @Override
+  public Product getProduct(int id) {
+    sessionFactory.getCurrentSession().beginTransaction();
+    Product temp = sessionFactory.getCurrentSession().get(Product.class, id);
+    sessionFactory.getCurrentSession().getTransaction().commit();
+    sessionFactory.getCurrentSession().close();
+    return temp;
+  }
+
+  @Override
+  public void updateProduct(Product product) {
+    sessionFactory.getCurrentSession().beginTransaction();
+    sessionFactory.getCurrentSession().save(product.getInfo().getBidder());
+    sessionFactory.getCurrentSession().update(product.getInfo());
+    sessionFactory.getCurrentSession().update(product);
+    sessionFactory.getCurrentSession().getTransaction().commit();
+    sessionFactory.getCurrentSession().close();
+  }
 }

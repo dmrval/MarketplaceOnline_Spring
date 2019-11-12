@@ -11,6 +11,7 @@
         <property name="current_session_context_class">thread</property>
         <property name="dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hbm2ddl.auto">update</property>
+        <property name="connection.autocommit">true</property>
         <mapping class="com.epam.dmrval.entity.Bidder"/>
         <mapping class="com.epam.dmrval.entity.User"/>
         <mapping class="com.epam.dmrval.entity.AuctionProductInfo"/>

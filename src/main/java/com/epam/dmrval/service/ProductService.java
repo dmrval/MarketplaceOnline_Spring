@@ -22,5 +22,7 @@ public interface ProductService {
 
   void transferProduct(int idProduct, int idNewUser);
 
-
+  default Product getProduct(int id) {
+    return new Product();
+  }
 }

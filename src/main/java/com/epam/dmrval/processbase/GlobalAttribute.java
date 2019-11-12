@@ -12,7 +12,7 @@ import java.util.List;
 public class GlobalAttribute {
 
   @Autowired ProductService productService;
-  boolean firstInitFlag = true;
+  private boolean firstInitFlag = true;
 
   private List<Product> allProducts;
 

@@ -16,6 +16,7 @@ public class ProductHibernateDaoImpl implements ProductHibernateDao {
 
   @Autowired SessionFactory sessionFactory;
 
+  
   @Override
   public List<Product> getAllProducts() {
     sessionFactory.openSession();
